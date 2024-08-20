@@ -43,6 +43,9 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function(){
     Route::get('users', function () {
        return view('admin.users');
     })->name('admin.users');
+    Route::get('events', function () {
+       return view('admin.events');
+    })->name('admin.events');
 });
 
 //staff routes
