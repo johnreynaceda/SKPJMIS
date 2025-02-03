@@ -17,4 +17,24 @@ class Inmate extends Model
     public function cellInmate(){
         return $this->hasOne(CellInmate::class);
     }
+
+    public function inmateFingerprint(){
+        return $this->hasOne(InmateFingerprint::class);
+    }
+
+    public function inmateAttendances(){
+        return $this->hasMany(InmateAttendance::class);
+    }
+
+    public function personalInformation(){
+        return $this->hasOne(PersonalInformation::class);
+    }
+
+    public function actions(){
+        return $this->hasMany(Action::class);
+    }
+
+    public function descriptiveInformation(){
+        return $this->hasOne(DescriptiveInformation::class);
+    }
 }

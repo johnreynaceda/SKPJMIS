@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\DescriptiveInformation;
 use App\Models\Inmate;
+use App\Models\InmateFingerprint;
 use App\Models\Shop\Product;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Fieldset;
@@ -10,14 +12,17 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ViewField;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
@@ -28,6 +33,8 @@ class InmateList extends Component implements HasForms, HasTable
     use InteractsWithForms;
 
     public $add_modal = false;
+
+    public $front, $back;
 
     public function table(Table $table): Table
     {
@@ -47,40 +54,53 @@ class InmateList extends Component implements HasForms, HasTable
                 }),
             ])
             ->filters([
-                // ...
+               SelectFilter::make('status')
+                ->options([
+                    'pending' => 'Pending',
+                    'approved' => 'Approved',
+                    'dismissed' => 'Dismissed'
+                ]),
             ])
             ->actions([
                 ActionGroup::make([
-                    // Action::make('view')->color('warning')->icon('heroicon-o-eye'),
-                    Action::make('view_fingerprint')->label('View Fingerprint')->icon('heroicon-c-finger-print')->color('success')->form([
+                    Action::make('view')->color('warning')->icon('heroicon-o-eye')->url(fn ($record): string => route('admin.inmates-information', ['id' => $record])),
+                    Action::make('approve')->color('success')->icon('heroicon-s-hand-thumb-up')->action(
+                        function($record){
+                            $record->update(['status' => 'approved']);
+                        }
+                    )->visible(fn($record) => $record->status == 'pending'),
+                    Action::make('reject')->color('danger')->icon('heroicon-s-hand-thumb-down')->visible(fn($record) => $record->status == 'pending'),
+                    Action::make('view_fingerprint')->label('View Fingerprint')->visible(fn($record) => $record->status != 'pending')->icon('heroicon-c-finger-print')->color('success')->form([
                         Section::make('FINGERPRINTS')->schema([
                             Fieldset::make('RIGHT HAND')->schema([
-                                FileUpload::make('thumb'),
-                                FileUpload::make('index'),
-                                FileUpload::make('middle'),
-                                FileUpload::make('ring'),
-                                FileUpload::make('little'),
-                            ])->columns(5),
+                                ViewField::make('right_hand')
+                                 ->view('filament.forms.right-finger')
+                            ])->columns(1),
                             Fieldset::make('LEFT HAND')->schema([
-                                FileUpload::make('thumb'),
-                                FileUpload::make('index'),
-                                FileUpload::make('middle'),
-                                FileUpload::make('ring'),
-                                FileUpload::make('little'),
-                            ])->columns(5),
+                                ViewField::make('left_hand')
+                                ->view('filament.forms.left-finger')
+                            ])->columns(1),
                         ])
-                    ])->modalHeading('')->modalWidth('7xl'),
-                    Action::make('decriptive_record')->label('Descriptive Record')->icon('heroicon-o-document-text')->form([
+                    ])->modalHeading('')->modalWidth('7xl')->modalSubmitAction(false),
+                    Action::make('decriptive_record')->visible(fn($record) => $record->status != 'pending')->label('Descriptive Record')->icon('heroicon-o-document-text')->form([
                         Section::make('DESCRIPTIVE RECORD')
                         ->description('This descriptive Record form will be used for all prisoners confined in a provincial prison and a copy of same certified as true and correct will accompany all prisoners upon their transfer from a provincial prison in addition to the commitment required by Executive Order No. 55 of 1997. In the identification record scars, marks and moles as well as the designation of missing members and deformities or peculiarities with dimension is millimeters will be recorded and located on the figure. Special care will be taken in lining and valuing prisoners effects and in securing their verifications to effect as listed and valued.')
                         ->schema([
-                            FileUpload::make('front'),
-                            FileUpload::make('back'),
+                            ViewField::make('front')->view('filament.forms.front'),
+                            ViewField::make('back')->view('filament.forms.back'),
                         ])->columns(2)
-                    ])->modalWidth('6xl'),
+                    ])->modalWidth('6xl')->action(
+                        function($record, $data){
+                            DescriptiveInformation::create([
+                                'inmate_id' => $record->id,
+                                'front_path' => $this->front->store('Front', 'public'),
+                                'back_path' => $this->back->store('Back', 'public'),
+                            ]);
+                        }
+                    ),
 
-                    Action::make('edit')->color('success')->icon('heroicon-o-pencil'),
-                    DeleteAction::make('delete'),
+                    // Action::make('edit')->color('success')->icon('heroicon-o-pencil'),
+                    // DeleteAction::make('delete'),
                 ])
             ])
             ->bulkActions([
@@ -90,6 +110,8 @@ class InmateList extends Component implements HasForms, HasTable
 
     public function render()
     {
-        return view('livewire.admin.inmate-list');
+        return view('livewire.admin.inmate-list',[
+            'fingerprints' => InmateFingerprint::get(),
+        ]);
     }
 }

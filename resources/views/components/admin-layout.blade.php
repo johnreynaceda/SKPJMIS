@@ -40,10 +40,10 @@
                     class="flex flex-col flex-grow pt-5 overflow-y-auto relative bg-gradient-to-bl from-gray-600 to-gray-500 border-r">
                     <img src="{{ asset('images/cell.jpg') }}"
                         class="object-cover absolute top-0 left-0 w-full h-full opacity-20" alt="">
-                    <div class="flex flex-col flex-shrink-0 px-4">
+                    <div class="flex flex-col items-center flex-shrink-0 px-4">
                         <a class="text-lg font-semibold tracking-tighter relative text-black focus:outline-none focus:ring"
                             href="/">
-                            <img src="" class=" w-full h-40 object-cover bg-white" alt="">
+                            <img src="{{ asset('images/skpj_logo.png') }}" class="  h-40" alt="">
                         </a>
                         <button class="hidden rounded-lg focus:outline-none focus:shadow-outline">
                             <svg fill="currentColor" viewBox="0 0 20 20" class="size-6">
@@ -138,8 +138,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-white transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-white hover:scale-95 hover:text-gray-700"
-                                        href="#_">
+                                    <a class="{{ request()->routeIs('admin.actions') ? 'bg-white text-main' : 'text-white' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm  transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-white hover:scale-95 hover:text-gray-700"
+                                        href="{{ route('admin.actions') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -189,8 +189,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-white transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-white hover:scale-95 hover:text-gray-700"
-                                        href="#_">
+                                    <a class="{{ request()->routeIs('admin.reports') ? 'bg-white text-main' : 'text-white' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm  transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-white hover:scale-95 hover:text-gray-700"
+                                        href="{{ route('admin.reports') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"

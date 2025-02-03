@@ -40,10 +40,10 @@
                     class="flex flex-col flex-grow pt-5 overflow-y-auto relative bg-gradient-to-bl from-gray-600 to-gray-500 border-r">
                     <img src="{{ asset('images/cell.jpg') }}"
                         class="object-cover absolute top-0 left-0 w-full h-full opacity-20" alt="">
-                    <div class="flex flex-col flex-shrink-0 px-4">
+                    <div class="flex flex-col items-center flex-shrink-0 px-4">
                         <a class="text-lg font-semibold tracking-tighter relative text-black focus:outline-none focus:ring"
                             href="/">
-                            <img src="" class=" w-full h-40 object-cover bg-white" alt="">
+                            <img src="{{ asset('images/skpj_logo.png') }}" class="  h-40" alt="">
                         </a>
                         <button class="hidden rounded-lg focus:outline-none focus:shadow-outline">
                             <svg fill="currentColor" viewBox="0 0 20 20" class="size-6">
@@ -63,8 +63,8 @@
                             </p>
                             <ul>
                                 <li>
-                                    <a class="{{ request()->routeIs('admin.dashboard') ? 'bg-white text-main' : 'text-white' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm  transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-white hover:scale-95 hover:text-gray-700"
-                                        href="{{ route('admin.dashboard') }}">
+                                    <a class="{{ request()->routeIs('staff.dashboard') ? 'bg-white text-main' : 'text-white' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm  transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-white hover:scale-95 hover:text-gray-700"
+                                        href="{{ route('staff.dashboard') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round"
@@ -83,7 +83,22 @@
                                 MASTER LIST
                             </p>
                             <ul>
-
+                                <li>
+                                    <a class="{{ request()->routeIs('staff.inmates') ? 'bg-white text-main' : 'text-white' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm  transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-white hover:scale-95 hover:text-gray-700"
+                                        href="{{ route('staff.inmates') }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-users">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                            <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                            <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+                                        </svg>
+                                        <span class="ml-4"> Inmates </span>
+                                    </a>
+                                </li>
                                 <li>
                                     <a class="{{ request()->routeIs('staff.visitor') ? 'bg-white text-main' : 'text-white' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm  transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-white hover:scale-95 hover:text-gray-700"
                                         href="{{ route('staff.visitor') }}">
@@ -100,19 +115,100 @@
                                             <path d="M3 13v-1a2 2 0 0 1 2 -2h2" />
                                         </svg>
                                         <span class="ml-4"> Visitors </span>
-                                        <span
-                                            class="inline-flex ml-auto items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-500">
-                                            25
-                                        </span>
+
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="{{ request()->routeIs('admin.crimes') ? 'bg-white text-main' : 'text-white' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm  transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-white hover:scale-95 hover:text-gray-700"
+                                        href="{{ route('admin.crimes') }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-file-search">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                            <path d="M12 21h-5a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v4.5" />
+                                            <path d="M16.5 17.5m-2.5 0a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0 -5 0" />
+                                            <path d="M18.5 19.5l2.5 2.5" />
+                                        </svg>
+                                        <span class="ml-4"> Crimes </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="{{ request()->routeIs('admin.actions') ? 'bg-white text-main' : 'text-white' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm  transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-white hover:scale-95 hover:text-gray-700"
+                                        href="{{ route('admin.actions') }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-list">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M9 6l11 0" />
+                                            <path d="M9 12l11 0" />
+                                            <path d="M9 18l11 0" />
+                                            <path d="M5 6l0 .01" />
+                                            <path d="M5 12l0 .01" />
+                                            <path d="M5 18l0 .01" />
+                                        </svg>
+                                        <span class="ml-4"> Actions </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="{{ request()->routeIs('admin.cell') ? 'bg-white text-main' : 'text-white' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm  transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-white hover:scale-95 hover:text-gray-700"
+                                        href="{{ route('admin.cell') }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-cell">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M8 4l-4 2v5l4 2l4 -2v-5z" />
+                                            <path d="M12 11l4 2l4 -2v-5l-4 -2l-4 2" />
+                                            <path d="M8 13v5l4 2l4 -2v-5" />
+                                        </svg>
+                                        <span class="ml-4"> Cell Block </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="{{ request()->routeIs('admin.events') ? 'bg-white text-main' : 'text-white' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm  transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-white hover:scale-95 hover:text-gray-700"
+                                        href="{{ route('admin.events') }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-event">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path
+                                                d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z" />
+                                            <path d="M16 3l0 4" />
+                                            <path d="M8 3l0 4" />
+                                            <path d="M4 11l16 0" />
+                                            <path d="M8 15h2v2h-2z" />
+                                        </svg>
+                                        <span class="ml-4">Events</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="{{ request()->routeIs('admin.reports') ? 'bg-white text-main' : 'text-white' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm  transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-white hover:scale-95 hover:text-gray-700"
+                                        href="{{ route('admin.reports') }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-file-description">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                            <path
+                                                d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                                            <path d="M9 17h6" />
+                                            <path d="M9 13h6" />
+                                        </svg>
+                                        <span class="ml-4"> Reports </span>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-white transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-white hover:scale-95 hover:text-gray-700"
-                                        href="#_">
+                                    <a class="{{ request()->routeIs('staff.attendance') ? 'bg-white text-main' : 'text-white' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm  transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-white hover:scale-95 hover:text-gray-700"
+                                        href="{{ route('staff.attendance') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                             class="icon icon-tabler icons-tabler-outline icon-tabler-app-window">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                             <path

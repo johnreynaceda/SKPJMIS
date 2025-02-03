@@ -13,4 +13,8 @@ class Visitor extends Model
     public function inmate(){
         return $this->belongsTo(Inmate::class);
     }
+
+    public function visitorAttendances(){
+        return $this->hasMany(VisitorAttendance::class);
+    }
 }

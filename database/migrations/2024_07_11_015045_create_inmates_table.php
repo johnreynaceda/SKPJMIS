@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('inmates', function (Blueprint $table) {
             $table->id();
             $table->string('fullname');
-            $table->string('status');
+            $table->string('status')->default('Approved');
             $table->timestamps();
         });
     }

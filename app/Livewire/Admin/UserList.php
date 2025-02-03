@@ -4,7 +4,9 @@ namespace App\Livewire\Admin;
 
 use App\Models\Crime;
 use App\Models\Shop\Product;
+use App\Models\Staff;
 use App\Models\User;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -30,12 +32,18 @@ class UserList extends Component implements HasForms, HasTable
             ->query(User::query()->where('user_type', 'staff'))->headerActions([
                 CreateAction::make('new')->color('main')->icon('heroicon-o-plus')->action(
                     function($data){
-                        User::create([
+                        $user = User::create([
                             'name' => $data['name'],
                             'email' => $data['email'],
                             'username' => $data['username'],
                             'password' => bcrypt($data['password']),
                             'user_type' =>'staff',
+                        ]);
+
+                        Staff::create([
+                            'fullname' => $data['name'],
+                            'position' => $data['designation'],
+                            'user_id' => $user->id
                         ]);
                     }
                 )->form([
@@ -43,6 +51,10 @@ class UserList extends Component implements HasForms, HasTable
                     TextInput::make('email')->email()->required(),
                     TextInput::make('username')->required(),
                     TextInput::make('password')->password()->required(),
+                    Select::make('designation')->options([
+                        'Staff' => 'Staff',
+                        'Penology Officer' => 'Penology Officer',
+                    ])
                 ])->modalWidth('xl')
             ])
             ->columns([

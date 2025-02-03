@@ -4,6 +4,7 @@ namespace App\Livewire\Admin;
 
 use App\Models\CaseDetail;
 use App\Models\Inmate;
+use App\Models\InmateFingerprint;
 use App\Models\OtherInformation;
 use App\Models\PersonalInformation;
 use App\Models\Post;
@@ -151,6 +152,10 @@ class CreateInmate extends Component implements HasForms
             'status' => 'pending',
         ]);
 
+        InmateFingerprint::create([
+            'inmate_id' => $inmate->id,
+        ]);
+
         PersonalInformation::create([
             'inmate_id' => $inmate->id,
             'firstname' => $this->firstname,
@@ -227,7 +232,11 @@ class CreateInmate extends Component implements HasForms
                ]);
         }
 
+       if (auth()->user()->user_type == 'admin') {
         return redirect()->route('admin.inmates');
+       }else{
+        return redirect()->route('staff.inmates');
+       }
     }
 
     public function render()

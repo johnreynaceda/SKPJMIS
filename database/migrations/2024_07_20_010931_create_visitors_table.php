@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('fullname');
             $table->string('contact');
             $table->string('relationship');
+            $table->binary('fingerprint')->nullable();
             $table->timestamps();
         });
     }

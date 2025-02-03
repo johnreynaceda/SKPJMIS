@@ -1,11 +1,22 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\Admin;
+use App\Http\Middleware\Staff;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('login');
-});
+    return view('welcome');
+})->name('welcome');
+
+Route::get('/visitor-profiling', function () {
+    return view('pages.visitor-profiling');
+})->name('visitor-profiling');
+
+Route::get('/set-schedule', function () {
+    return view('pages.set-schedule');
+})->name('set-schedule');
+
 
 Route::get('/dashboard', function () {
    switch (auth()->user()->user_type) {
@@ -21,13 +32,16 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 //admin routes
-Route::prefix('admin')->middleware(['auth', 'verified'])->group(function(){
+Route::prefix('admin')->middleware(['auth', 'verified', Admin::class])->group(function(){
     Route::get('dashboard', function () {
        return view('admin.dashboard');
     })->name('admin.dashboard');
     Route::get('inmates', function () {
        return view('admin.inmates');
     })->name('admin.inmates');
+    Route::get('inmates/{id}', function () {
+       return view('admin.inmates-information');
+    })->name('admin.inmates-information');
     Route::get('inmates/create', function () {
        return view('admin.inmates-create');
     })->name('admin.inmates-create');
@@ -46,16 +60,31 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function(){
     Route::get('events', function () {
        return view('admin.events');
     })->name('admin.events');
+    Route::get('actions', function () {
+       return view('admin.actions');
+    })->name('admin.actions');
+    Route::get('reports', function () {
+       return view('admin.reports');
+    })->name('admin.reports');
 });
 
 //staff routes
-Route::prefix('staff')->middleware(['auth', 'verified'])->group(function(){
+Route::prefix('staff')->middleware(['auth', 'verified',Staff::class])->group(function(){
     Route::get('dashboard', function () {
        return view('staff.dashboard');
     })->name('staff.dashboard');
+    Route::get('inmates', function () {
+       return view('staff.inmates');
+    })->name('staff.inmates');
+    Route::get('inmates/create', function () {
+       return view('staff.inmate-create');
+    })->name('staff.inmate-create');
     Route::get('visitor', function () {
        return view('staff.visitor');
     })->name('staff.visitor');
+    Route::get('attendance', function () {
+       return view('staff.attendance');
+    })->name('staff.attendance');
 });
 
 
