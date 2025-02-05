@@ -39,8 +39,8 @@ class InmateList extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(Inmate::query())->headerActions([
-                Action::make('new')->label('New Inmates')->icon('heroicon-o-user-plus')->color('main')->url(fn (): string => route('admin.inmates-create'))
+            ->query(Inmate::query()->orderByDesc('created_at'))->headerActions([
+                // Action::make('new')->label('New Inmates')->icon('heroicon-o-user-plus')->color('main')->url(fn (): string => route('admin.inmates-create'))
             ])
             ->columns([
                 TextColumn::make('created_at')->date()->label('CREATED DATE')->searchable(),
@@ -106,6 +106,32 @@ class InmateList extends Component implements HasForms, HasTable
             ->bulkActions([
                 // ...
             ])->emptyStateHeading('No Inmates yet')->emptyStateDescription('Once you write your first inmate, it will appear here.');
+    }
+
+    public function sms(){
+        sleep(1);
+
+        $ch = curl_init();
+$parameters = array(
+    'apikey' => '1aaad08e0678a1c60ce55ad2000be5bd', //Your API KEY
+    'number' => '09489203090',
+    'message' => 'I just sent my first message with Semaphore',
+    'sendername' => 'ELOIS'
+);
+curl_setopt( $ch, CURLOPT_URL,'https://semaphore.co/api/v4/messages' );
+curl_setopt( $ch, CURLOPT_POST, 1 );
+
+//Send the parameters set above with the request
+curl_setopt( $ch, CURLOPT_POSTFIELDS, http_build_query( $parameters ) );
+
+// Receive response from server
+curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+$output = curl_exec( $ch );
+curl_close ($ch);
+
+//Show the server response
+echo $output;
+
     }
 
     public function render()

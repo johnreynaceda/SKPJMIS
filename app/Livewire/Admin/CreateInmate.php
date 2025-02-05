@@ -39,6 +39,7 @@ class CreateInmate extends Component implements HasForms
 
     public $previous_cases = [];
 
+
     public $medical_certificate_issued_remarks, $date_issued, $illness_prior_commitment, $medications_used, $jail_nurse;
 
     public function form(Form $form): Form
@@ -93,7 +94,7 @@ class CreateInmate extends Component implements HasForms
                     TextInput::make('course'),
                     TextInput::make('occupation'),
                     TextInput::make('color_of_hair'),
-                    TextInput::make('color_of_eyes'),
+                    TextInput::make('color_eyes'),
                     TextInput::make('blood_type'),
                     TextInput::make('complexion'),
                     Textarea::make('bertillion_marks')->columnSpan(4),
@@ -205,6 +206,8 @@ class CreateInmate extends Component implements HasForms
             'inmate_property_held_by' => $this->inmate_property_held_by,
             'property_receipt_no' => $this->property_receipt_no,
             'kind' => $this->kind,
+            'medical_certificate_issued_remarks' => $this->mandatory_certificate_issued_remarks,
+            'date_issued' => Carbon::parse($this->date_issued),
             'illness_prior_commitment' => $this->illness_prior_commitment,
            'medications_used' => $this->medications_used,
             'jail_nurse' => $this->jail_nurse,
@@ -224,11 +227,11 @@ class CreateInmate extends Component implements HasForms
         foreach ($this->previous_cases as $key => $previous) {
             PreviousCaseDetail::create([
                 'inmate_id' => $inmate->id,
-                'criminal_case_no' => $case['criminal_case_no'],
-                'offense_charge' => $case['offense_charge'],
-                'judge' => $case['judge'],
-                'court_branch' => $case['court_branch'],
-                'date_filed' => Carbon::parse($case['date_filed']),
+                'criminal_case_no' => $previous['criminal_case_no'],
+                'offense_charge' => $previous['offense_charge'],
+                'judge' => $previous['judge'],
+                'court_branch' => $previous['court_branch'],
+                'date_filed' => Carbon::parse($previous['date_filed']),
                ]);
         }
 

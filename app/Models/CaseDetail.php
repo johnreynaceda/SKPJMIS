@@ -9,4 +9,8 @@ class CaseDetail extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function inmate(){
+        return $this->belongsTo(Inmate::class);
+    }
 }

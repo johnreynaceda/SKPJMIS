@@ -30,8 +30,19 @@ class Inmate extends Model
         return $this->hasOne(PersonalInformation::class);
     }
 
+    public function caseDetails(){
+        return $this->hasMany(CaseDetail::class);
+    }
+    public function previousCaseDetails(){
+        return $this->hasMany(PreviousCaseDetail::class);
+    }
+
     public function actions(){
         return $this->hasMany(Action::class);
+    }
+
+    public function otherInformation(){
+        return $this->hasOne(OtherInformation::class);
     }
 
     public function descriptiveInformation(){
