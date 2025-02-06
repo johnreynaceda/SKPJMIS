@@ -29,27 +29,27 @@
             <div class="mt-5 grid grid-cols-4 gap-5 text-gray-700">
                 <div>
                     <h1 class="text-sm">FIRSTNAME</h1>
-                    <h1 class="font-semibold">{{ $inmate->personalInformation->firstname }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->personalInformation->firstname ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">MIDDLENAME</h1>
-                    <h1 class="font-semibold">{{ $inmate->personalInformation->middlename }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->personalInformation->middlename ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">LASTNAME</h1>
-                    <h1 class="font-semibold">{{ $inmate->personalInformation->lastname }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->personalInformation->lastname ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">ALIASES</h1>
-                    <h1 class="font-semibold">{{ $inmate->personalInformation->aliases }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->personalInformation->aliases ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">SEX</h1>
-                    <h1 class="font-semibold">{{ $inmate->personalInformation->sex }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->personalInformation->sex ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">CIVIL STATUS</h1>
-                    <h1 class="font-semibold">{{ $inmate->personalInformation->civil_status }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->personalInformation->civil_status ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">DATE OF BIRTH</h1>
@@ -68,102 +68,102 @@
                 </div>
                 <div class="col-span-2">
                     <h1 class="text-sm">PLACE OF BIRTH</h1>
-                    <h1 class="font-semibold">{{ $inmate->personalInformation->birthplace }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->personalInformation->birthplace ?? '' }}</h1>
                 </div>
                 <div class="col-span-4">
 
                 </div>
                 <div>
                     <h1 class="text-sm">NAME OF FATHER</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->name_of_father }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->name_of_father ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">NAME OF MOTHER</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->name_of_mother }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->name_of_mother ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">NAME OF SPOUSE</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->name_of_spouse }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->name_of_spouse ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">NO. OF CHILDREN </h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->no_of_children }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->no_of_children ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">NEAREST KIN</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->nearest_kin }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->nearest_kin ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">ADDRESS OF KIN</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->address_of_kin }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->address_of_kin ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">RELATIONSHIP</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->relationship }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->relationship ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">CONTACT NO.</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->contact_number }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->contact_number ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">HEIGHT</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->height }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->height ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">WEIGHT</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->weight }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->weight ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">RELIGION</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->religion }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->religion ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">NATIONALITY</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->nationality }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->nationality ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">NATIVE ORIGIN, TRIBAL AFFILIATION</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->native_origin }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->native_origin ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">POLITICAL AFFILIATION</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->political_affilation }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->political_affilation ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">HIGHEST EDUCATIONAL ATTAINTMENT</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->educational_attainment }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->educational_attainment ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">COURSE</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->course }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->course ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">OCCUPATION</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->occupation }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->occupation ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">COLOR OF HAIR</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->color_of_hair }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->color_of_hair ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">COLOR OF EYES</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->color_of_eyes }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->color_of_eyes ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">BLOOD TYPE</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->blood_type }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->blood_type ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">COMPLEXION</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->complexion }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->complexion ?? '' }}</h1>
                 </div>
                 <div class="col-span-3">
                     <h1 class="text-sm">BERTILLON MARKS</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->bertillon_marks }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->bertillon_marks ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">DATE CRIME COMMITED</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->crime_commited }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->crime_commited ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">DATE & TIME ARRESTED</h1>
@@ -181,17 +181,17 @@
                 </div>
                 <div>
                     <h1 class="text-sm">ARRESTING OFFICER</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->arresting_officer }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->arresting_officer ?? '' }}</h1>
                 </div>
 
                 <div>
                     <h1 class="text-sm">STATION/PRECINCT</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->station }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->station ?? '' }}</h1>
                 </div>
                 <div class="col-span-2">
                     <h1 class="text-sm">NAMES & SIGNATURE OF RECEIVING JAIL OFFICER
                     </h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->arresting_officer }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->arresting_officer ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">DATE & TIME</h1>
@@ -201,23 +201,23 @@
                 </div>
                 <div class="col-span-3">
                     <h1 class="text-sm">COMMITED IN JAIL</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->commited_in_jail }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->commited_in_jail ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">INMATE SEARCH BY</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->inmate_search_by }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->inmate_search_by ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">INMATES PROPERTY HELD BY</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->inmate_property_held_by }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->inmate_property_held_by ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">PROPERTY RECEIPT NO</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->property_receipt_no }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->property_receipt_no ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">KIND</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->kind }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->kind ?? '' }}</h1>
                 </div>
                 <div class="col-span-4">
                     <div class="border w-ful"></div>
@@ -347,24 +347,25 @@
                 </div>
                 <div>
                     <h1 class="text-sm">REMARKS</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->medical_certificate_issued_remarks }}</h1>
+                    <h1 class="font-semibold">
+                        {{ $inmate->otherInformation->medical_certificate_issued_remarks ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">DATE ISSUED</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->date_issued }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->date_issued ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">ILLNESS PRIOR COMMITMENT</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->illness_prior_commitment }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->illness_prior_commitment ?? '' }}</h1>
                 </div>
                 <div>
                     <h1 class="text-sm">MEDICATION USED</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->medications_used }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->medications_used ?? '' }}</h1>
                 </div>
 
                 <div>
                     <h1 class="text-sm">JAIL NURSE</h1>
-                    <h1 class="font-semibold">{{ $inmate->otherInformation->jail_nurse }}</h1>
+                    <h1 class="font-semibold">{{ $inmate->otherInformation->jail_nurse ?? '' }}</h1>
                 </div>
 
                 <div class="col-span-4">
@@ -513,12 +514,12 @@
                     <div class="mt-5 grid grid-cols-2 gap-10">
                         <div>
                             <h1>FRONT</h1>
-                            <img src="{{ Storage::url($inmate->descriptiveInformation->front_path) }}"
+                            <img src="{{ Storage::url($inmate->descriptiveInformation->front_path ?? '') }}"
                                 class="h-96 w-full object-cover" alt="">
                         </div>
                         <div>
                             <h1>BACK</h1>
-                            <img src="{{ Storage::url($inmate->descriptiveInformation->back_path) }}"
+                            <img src="{{ Storage::url($inmate->descriptiveInformation->back_path ?? '') }}"
                                 class="h-96 w-full object-cover" alt="">
                         </div>
 

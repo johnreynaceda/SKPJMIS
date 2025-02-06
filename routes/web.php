@@ -17,77 +17,89 @@ Route::get('/set-schedule', function () {
     return view('pages.set-schedule');
 })->name('set-schedule');
 
-
 Route::get('/dashboard', function () {
-   switch (auth()->user()->user_type) {
-    case 'admin':
-        return redirect()->route('admin.dashboard');
-    case 'staff':
-        return redirect()->route('staff.dashboard');
+    switch (auth()->user()->user_type) {
+        case 'admin':
+            return redirect()->route('admin.dashboard');
+        case 'staff':
+            return redirect()->route('staff.dashboard');
 
-    default:
-        # code...
-        break;
-   }
+        default:
+            # code...
+            break;
+    }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 //admin routes
-Route::prefix('admin')->middleware(['auth', 'verified', Admin::class])->group(function(){
+Route::prefix('admin')->middleware(['auth', 'verified', Admin::class])->group(function () {
     Route::get('dashboard', function () {
-       return view('admin.dashboard');
+        return view('admin.dashboard');
     })->name('admin.dashboard');
     Route::get('inmates', function () {
-       return view('admin.inmates');
+        return view('admin.inmates');
     })->name('admin.inmates');
     Route::get('inmates/{id}', function () {
-       return view('admin.inmates-information');
+        return view('admin.inmates-information');
     })->name('admin.inmates-information');
     Route::get('inmates/create', function () {
-       return view('admin.inmates-create');
+        return view('admin.inmates-create');
     })->name('admin.inmates-create');
     Route::get('crimes', function () {
-       return view('admin.crimes');
+        return view('admin.crimes');
     })->name('admin.crimes');
     Route::get('visitor', function () {
-       return view('admin.visitor');
+        return view('admin.visitor');
     })->name('admin.visitor');
     Route::get('cell-block', function () {
-       return view('admin.cell');
+        return view('admin.cell');
     })->name('admin.cell');
     Route::get('users', function () {
-       return view('admin.users');
+        return view('admin.users');
     })->name('admin.users');
     Route::get('events', function () {
-       return view('admin.events');
+        return view('admin.events');
     })->name('admin.events');
     Route::get('actions', function () {
-       return view('admin.actions');
+        return view('admin.actions');
     })->name('admin.actions');
     Route::get('reports', function () {
-       return view('admin.reports');
+        return view('admin.reports');
     })->name('admin.reports');
 });
 
 //staff routes
-Route::prefix('staff')->middleware(['auth', 'verified',Staff::class])->group(function(){
+Route::prefix('staff')->middleware(['auth', 'verified', Staff::class])->group(function () {
     Route::get('dashboard', function () {
-       return view('staff.dashboard');
+        return view('staff.dashboard');
     })->name('staff.dashboard');
     Route::get('inmates', function () {
-       return view('staff.inmates');
+        return view('staff.inmates');
     })->name('staff.inmates');
     Route::get('inmates/create', function () {
-       return view('staff.inmate-create');
+        return view('staff.inmate-create');
     })->name('staff.inmate-create');
     Route::get('visitor', function () {
-       return view('staff.visitor');
+        return view('staff.visitor');
     })->name('staff.visitor');
+    Route::get('crime', function () {
+        return view('staff.crime');
+    })->name('staff.crimes');
+    Route::get('actions', function () {
+        return view('staff.actions');
+    })->name('staff.actions');
+    Route::get('cell', function () {
+        return view('staff.cell');
+    })->name('staff.cell');
+    Route::get('events', function () {
+        return view('staff.events');
+    })->name('staff.events');
+    Route::get('reports', function () {
+        return view('staff.reports');
+    })->name('staff.reports');
     Route::get('attendance', function () {
-       return view('staff.attendance');
+        return view('staff.attendance');
     })->name('staff.attendance');
 });
-
-
 
 //staff routes
 
@@ -97,4 +109,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

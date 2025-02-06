@@ -115,10 +115,7 @@
                                             <path d="M3 13v-1a2 2 0 0 1 2 -2h2" />
                                         </svg>
                                         <span class="ml-4"> Visitors </span>
-                                        <span
-                                            class="inline-flex ml-auto items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-500">
-                                            25
-                                        </span>
+
                                     </a>
                                 </li>
                                 <li>
