@@ -4,6 +4,8 @@
             <option hidden>Select an option</option>
             <option value="Inmate">Inmate Records</option>
             <option value="Visitor">Visitor Records</option>
+            <option value="Cell">Cell Assignments and Vacancies</option>
+            <option value="Activity">Recreational and livelihood Activities</option>
         </x-native-select>
     </div>
 
@@ -118,6 +120,274 @@
             </div>
         @endif
         @if ($selected_report == 'Visitor')
+            <div class="flex justify-between items-center">
+                <div class="flex space-x-3 items-center">
+                    <div class="w-64">
+                        <x-native-select label="Month" wire:model.live="month">
+                            <option hidden>Select an option</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </x-native-select>
+                    </div>
+                    <div class="w-64">
+                        <x-native-select label="Year" wire:model.live="year">
+                            <option hidden>Select an option</option>
+                            @for ($i = date('Y'); $i >= 2000; $i--)
+                                <option value="{{ $i }}">{{ $i }}</option>
+                            @endfor
+                        </x-native-select>
+
+                    </div>
+                </div>
+                <div>
+                    <x-button label="Print" icon="printer" class="font-medium" slate
+                        @click="printOut($refs.printContainer.outerHTML);" />
+                </div>
+            </div>
+            <div class="mt-5 bg-white p-5">
+                <div x-ref="printContainer">
+                    <div class="flex space-x-3 items-end">
+                        <img src="{{ asset('images/skpj_logo.png') }}" class="h-20" alt="">
+                        <div>
+                            <h1 class="font-semibold text-lg">SULTAN KUDARAT PROVINCIAL JAIL MANAGEMENT INFORMATION
+                                SYSTEM
+                            </h1>
+                            <h1>Visitor Scheduled Day and Time</h1>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <table id="example" style="width:100%">
+                            <thead class="font-normal">
+                                <tr>
+                                    <th
+                                        class="border border-gray-500  text-left px-2 text-sm font-semibold text-gray-700 py-2">
+                                        #</th>
+                                    <th
+                                        class="border border-gray-500  text-left px-2 text-sm font-semibold text-gray-700 py-2">
+                                        VISITOR NAME
+                                    </th>
+                                    <th
+                                        class="border border-gray-500  text-left px-2 text-sm font-semibold text-gray-700 py-2">
+                                        SCHEDULED DATETIME
+                                    </th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody class="">
+                                @php
+                                    $i = 1;
+                                @endphp
+                                @forelse ($visits as $item)
+                                    <tr>
+                                        <td class="border border-gray-500 text-gray-700  px-3 py-1">
+                                            {{ $i++ }}
+                                        </td>
+                                        <td class="border border-gray-500 text-gray-700  px-3 py-1">
+                                            {{ $item->visitor->fullname }}
+                                        </td>
+                                        <td class="border border-gray-500 text-gray-700  px-3 py-1">
+                                            {{ \Carbon\Carbon::parse($item->date_of_visit)->format('F d, Y ') }}
+                                        </td>
+
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td class="border border-gray-500 text-gray-700 text-center  px-3 py-1"
+                                            colspan="5">
+                                            No data found.
+                                        </td>
+                                    </tr>
+                                @endforelse
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        @endif
+        @if ($selected_report == 'Cell')
+            <div class="flex justify-between items-center">
+                <div class="flex space-x-3 items-center">
+                    <div class="w-64">
+                        <x-native-select label="Cell" wire:model.live="cell_get">
+                            <option hidden>Select an option</option>
+                            @forelse ($cells as $cell)
+                                <option value="{{ $cell->id }}">{{ $cell->name }}</option>
+                            @empty
+                            @endforelse
+                        </x-native-select>
+                    </div>
+                </div>
+                <div>
+                    <x-button label="Print" icon="printer" class="font-medium" slate
+                        @click="printOut($refs.printContainer.outerHTML);" />
+                </div>
+            </div>
+            <div class="mt-5 bg-white p-5">
+                <div x-ref="printContainer">
+                    <div class="flex space-x-3 items-end">
+                        <img src="{{ asset('images/skpj_logo.png') }}" class="h-20" alt="">
+                        <div>
+                            <h1 class="font-semibold text-lg">SULTAN KUDARAT PROVINCIAL JAIL MANAGEMENT INFORMATION
+                                SYSTEM
+                            </h1>
+                            <h1>Cell Assignments and Vacancies</h1>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        @php
+                            $cell_name = \App\Models\CellBlock::where('id', $cell_get)->first();
+                        @endphp
+                        <h1 class=" font-bold uppercase">
+                            CELL BLOCK: {{ $cell_name->name ?? '' }}
+                        </h1>
+                        <h1 class=" font-bold uppercase">
+
+                            CELL VACANTS:
+                            {{ ($cell_name->capacity ?? 0) - (isset($cell_name->cellInmates) ? count($cell_name->cellInmates) : 0) }}
+
+
+                        </h1>
+                    </div>
+                    <div class="">
+                        <table id="example" style="width:100%">
+                            <thead class="font-normal">
+                                <tr>
+                                    <th
+                                        class="border border-gray-500  text-left px-2 text-sm font-semibold text-gray-700 py-2">
+                                        #</th>
+                                    <th
+                                        class="border border-gray-500  text-left px-2 text-sm font-semibold text-gray-700 py-2">
+                                        DATE
+                                    </th>
+                                    <th
+                                        class="border border-gray-500  text-left px-2 text-sm font-semibold text-gray-700 py-2">
+                                        INMATE
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody class="">
+                                @php
+                                    $i = 1;
+                                @endphp
+                                @forelse ($cellInmates as $item)
+                                    <tr>
+                                        <td class="border border-gray-500 text-gray-700  px-3 py-1">
+                                            {{ $i++ }}
+                                        </td>
+                                        <td class="border border-gray-500 text-gray-700  px-3 py-1">
+                                            {{ \Carbon\Carbon::parse($item->created_at)->format('Y-m-d') }}
+                                        </td>
+                                        <td class="border border-gray-500 text-gray-700  px-3 py-1">
+                                            {{ $item->inmate->fullname }}
+                                        </td>
+
+
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td class="border border-gray-500 text-gray-700 text-center  px-3 py-1"
+                                            colspan="5">
+                                            No data found.
+                                        </td>
+                                    </tr>
+                                @endforelse
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        @endif
+        @if ($selected_report == 'Activity')
+            <div class="flex justify-between items-center">
+                <div class="flex space-x-3 items-center">
+
+                </div>
+                <div>
+                    <x-button label="Print" icon="printer" class="font-medium" slate
+                        @click="printOut($refs.printContainer.outerHTML);" />
+                </div>
+            </div>
+            <div class="mt-5 bg-white p-5">
+                <div x-ref="printContainer">
+                    <div class="flex space-x-3 items-end">
+                        <img src="{{ asset('images/skpj_logo.png') }}" class="h-20" alt="">
+                        <div>
+                            <h1 class="font-semibold text-lg">SULTAN KUDARAT PROVINCIAL JAIL MANAGEMENT INFORMATION
+                                SYSTEM
+                            </h1>
+                            <h1>Recreational and livelihood Activities</h1>
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <table id="example" style="width:100%">
+                            <thead class="font-normal">
+                                <tr>
+                                    <th
+                                        class="border border-gray-500  text-left px-2 text-sm font-semibold text-gray-700 py-2">
+                                        #</th>
+
+                                    <th
+                                        class="border border-gray-500  text-left px-2 text-sm font-semibold text-gray-700 py-2">
+                                        EVENT
+                                    </th>
+                                    <th
+                                        class="border border-gray-500  text-left px-2 text-sm font-semibold text-gray-700 py-2">
+                                        DATE
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody class="">
+                                @php
+                                    $i = 1;
+                                @endphp
+                                @forelse ($activities as $item)
+                                    <tr>
+                                        <td class="border border-gray-500 text-gray-700  px-3 py-1">
+                                            {{ $i++ }}
+                                        </td>
+
+                                        <td class="border border-gray-500 text-gray-700  px-3 py-1">
+                                            {{ $item->name }}
+                                        </td>
+                                        <td class="border border-gray-500 text-gray-700  px-3 py-1">
+                                            {{ \Carbon\Carbon::parse($item->date)->format('F d, Y h:i A') }}
+                                        </td>
+
+
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td class="border border-gray-500 text-gray-700 text-center  px-3 py-1"
+                                            colspan="5">
+                                            No data found.
+                                        </td>
+                                    </tr>
+                                @endforelse
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         @endif
         @if ($selected_report == null)
             <div class="flex justify-center">

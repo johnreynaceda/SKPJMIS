@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,11 +9,18 @@ class Visitor extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function inmate(){
+    public function inmate()
+    {
         return $this->belongsTo(Inmate::class);
     }
 
-    public function visitorAttendances(){
+    public function visitorAttendances()
+    {
         return $this->hasMany(VisitorAttendance::class);
+    }
+
+    public function inmateVisits()
+    {
+        return $this->hasMany(InmateVisit::class);
     }
 }

@@ -46,7 +46,7 @@ class InmateRecord extends Component implements HasForms, HasTable
             ->actions([
                 ActionGroup::make([
 
-                    // Action::make('view')->color('warning')->icon('heroicon-o-eye'),
+                    Action::make('view')->color('warning')->icon('heroicon-o-eye')->url(fn($record): string => route('staff.inmates-information', ['id' => $record])),
                     Action::make('view_fingerprint')->label('View Fingerprint')->icon('heroicon-c-finger-print')->color('success')->form([
                         Section::make('FINGERPRINTS')->schema([
                             Fieldset::make('RIGHT HAND')->schema([
