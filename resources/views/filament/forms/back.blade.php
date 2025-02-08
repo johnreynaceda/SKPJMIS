@@ -1,4 +1,4 @@
-@if ($getRecord()->descriptiveInformation->back_path)
+@if ($getRecord()->descriptiveInformation)
     <div class="div w-full rounded-xl border p-5">
         <h1>BACK</h1>
         <img src="{{ asset(Storage::url($getRecord()->descriptiveInformation->back_path)) }}"

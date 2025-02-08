@@ -52,9 +52,5 @@
         </div>
     </form>
 
-    <div class="text-center pt-8">
-        <span class="text-sm">Don't have an account yet? <a href="{{ route('register') }}"
-                class="underline text-blue-500 hover:text-gray-700">Register
-                here</a></span>
-    </div>
+
 </x-guest-layout>

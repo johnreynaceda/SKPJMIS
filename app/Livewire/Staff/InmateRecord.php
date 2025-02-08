@@ -1,9 +1,9 @@
 <?php
 namespace App\Livewire\Staff;
 
+use App\Models\DescriptiveInformation;
 use App\Models\Inmate;
 use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\ViewField;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -63,10 +63,18 @@ class InmateRecord extends Component implements HasForms, HasTable
                         Section::make('DESCRIPTIVE RECORD')
                             ->description('This descriptive Record form will be used for all prisoners confined in a provincial prison and a copy of same certified as true and correct will accompany all prisoners upon their transfer from a provincial prison in addition to the commitment required by Executive Order No. 55 of 1997. In the identification record scars, marks and moles as well as the designation of missing members and deformities or peculiarities with dimension is millimeters will be recorded and located on the figure. Special care will be taken in lining and valuing prisoners effects and in securing their verifications to effect as listed and valued.')
                             ->schema([
-                                FileUpload::make('front'),
-                                FileUpload::make('back'),
+                                ViewField::make('front')->view('filament.forms.front'),
+                                ViewField::make('back')->view('filament.forms.back'),
                             ])->columns(2),
-                    ])->modalWidth('6xl'),
+                    ])->modalWidth('6xl')->action(
+                        function ($record, $data) {
+                            DescriptiveInformation::create([
+                                'inmate_id'  => $record->id,
+                                'front_path' => $this->front->store('Front', 'public'),
+                                'back_path'  => $this->back->store('Back', 'public'),
+                            ]);
+                        }
+                    ),
 
                     DeleteAction::make('delete'),
                 ]),

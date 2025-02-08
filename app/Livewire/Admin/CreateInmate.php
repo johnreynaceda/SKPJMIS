@@ -25,7 +25,7 @@ use Livewire\Component;
 class CreateInmate extends Component implements HasForms
 {
     use InteractsWithForms;
-    public $cases = [];
+    public $cases = [[]];
 
     //personal info
     public $firstname, $middlename, $lastname, $aliases, $sex, $civil_status, $birthdate, $place_of_birth, $region, $city, $barangay, $street;
@@ -33,7 +33,7 @@ class CreateInmate extends Component implements HasForms
     //other info
     public $name_of_father, $name_of_mother, $name_of_spouse, $no_of_children, $nearest_kin, $address_of_kin, $relationship, $contact_number, $height, $weight, $religion, $nationality, $native_origin, $political_affilation, $educational_attainment, $course, $occupation, $color_of_hair, $color_eyes, $blood_type, $complexion, $bertillion_marks, $crime_committed, $date_time_arrested, $arresting_officer, $commited_in_jail, $station, $inmate_search_by, $inmate_property_held_by, $property_receipt_no, $kind;
 
-    public $previous_cases = [];
+    public $previous_cases = [[]];
 
     public $medical_certificate_issued_remarks, $date_issued, $illness_prior_commitment, $medications_used, $jail_nurse;
 

@@ -1,4 +1,4 @@
-@if ($getRecord()->descriptiveInformation->front_path)
+@if ($getRecord()->descriptiveInformation)
     <div class="div w-full rounded-xl border p-5">
         <h1>FRONT</h1>
         <img src="{{ asset(Storage::url($getRecord()->descriptiveInformation->front_path)) }}"
