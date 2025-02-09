@@ -2,9 +2,13 @@
 namespace App\Livewire\Staff;
 
 use App\Models\DescriptiveInformation;
+use App\Models\DischargeInfo;
 use App\Models\Inmate;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ViewField;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -12,6 +16,7 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
@@ -37,8 +42,11 @@ class InmateRecord extends Component implements HasForms, HasTable
                 )->color(fn(string $state): string => match ($state) {
                     'pending'                          => 'warning',
                     'approved'                         => 'success',
-                    'dismissed'                        => 'danger',
+                    'discharge'                        => 'danger',
                 }),
+                ViewColumn::make('print')
+                    ->label('')
+                    ->view('filament.tables.print'),
             ])
             ->filters([
                 // ...
@@ -73,6 +81,42 @@ class InmateRecord extends Component implements HasForms, HasTable
                                 'front_path' => $this->front->store('Front', 'public'),
                                 'back_path'  => $this->back->store('Back', 'public'),
                             ]);
+                        }
+                    ),
+                    Action::make('discharge_inmate')->visible(fn($record) => $record->status != 'pending' && $record->status != 'discharge')->label('Discharge Inmate')->icon('heroicon-o-arrow-turn-down-right')->color('danger')->form([
+                        Grid::make(2)->schema([
+                            TextInput::make('criminal_case')->label('Criminal Case/s NO./s'),
+                            TextInput::make('class')->label('Class'),
+                            TextInput::make('commited_on')->label('Who was sentenced/commited on'),
+                            TextInput::make('by')->label('by'),
+                            TextInput::make('for')->label('To be confined in jail during pendency of his/her/their case/s')->hint('For'),
+                            TextInput::make('release')->label('Is released from confinement this date'),
+                            TextInput::make('order_of')->label('For the case filed againts him/her/them, as per Order of'),
+                            DatePicker::make('date')->label('Date')->required(),
+                            TextInput::make('previous_term')->label('Number of previous term of improvement'),
+                            TextInput::make('remarks')->label('Remarks'),
+                            DatePicker::make('date_of_discharge')->label('Date of Discharge')->required(),
+                        ]),
+
+                    ])->modalWidth('2xl')->action(
+                        function ($record, $data) {
+                            DischargeInfo::create([
+                                'inmate_id'         => $record->id,
+                                'criminal_case'     => $data['criminal_case'],
+                                'class'             => $data['class'],
+                                'committed_on'      => $data['commited_on'],
+                                'by'                => $data['by'],
+                                'for'               => $data['for'],
+                                'release'           => $data['release'],
+                                'order_of'          => $data['order_of'],
+                                'date'              => $data['date'],
+                                'previous_term'     => $data['previous_term'],
+                                'remarks'           => $data['remarks'],
+                                'date_of_discharge' => $data['date_of_discharge'],
+                            ]);
+
+                            // Ensure the record updates properly
+                            $record->update(['status' => 'discharge']);
                         }
                     ),
 

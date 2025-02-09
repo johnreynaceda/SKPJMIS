@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,42 +9,57 @@ class Inmate extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function visitors(){
+    public function visitors()
+    {
         return $this->hasMany(Visitor::class);
     }
 
-    public function cellInmate(){
+    public function cellInmate()
+    {
         return $this->hasOne(CellInmate::class);
     }
 
-    public function inmateFingerprint(){
+    public function inmateFingerprint()
+    {
         return $this->hasOne(InmateFingerprint::class);
     }
 
-    public function inmateAttendances(){
+    public function inmateAttendances()
+    {
         return $this->hasMany(InmateAttendance::class);
     }
 
-    public function personalInformation(){
+    public function personalInformation()
+    {
         return $this->hasOne(PersonalInformation::class);
     }
 
-    public function caseDetails(){
+    public function caseDetails()
+    {
         return $this->hasMany(CaseDetail::class);
     }
-    public function previousCaseDetails(){
+    public function previousCaseDetails()
+    {
         return $this->hasMany(PreviousCaseDetail::class);
     }
 
-    public function actions(){
+    public function actions()
+    {
         return $this->hasMany(Action::class);
     }
 
-    public function otherInformation(){
+    public function otherInformation()
+    {
         return $this->hasOne(OtherInformation::class);
     }
 
-    public function descriptiveInformation(){
+    public function descriptiveInformation()
+    {
         return $this->hasOne(DescriptiveInformation::class);
+    }
+
+    public function dischargeInfo()
+    {
+        return $this->hasOne(DischargeInfo::class);
     }
 }
