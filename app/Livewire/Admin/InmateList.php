@@ -49,7 +49,7 @@ class InmateList extends Component implements HasForms, HasTable
                     'approved'                         => 'success',
                     'discharge'                        => 'danger',
                 }),
-                ViewColumn::make('print')->visible(fn($record) => $record->status == 'discharge')->label('')->view('filament.tables.print'),
+                ViewColumn::make('print')->label('')->view('filament.tables.print'),
             ])
             ->filters([
                 SelectFilter::make('status')
