@@ -403,28 +403,49 @@
                                                     <tr>
                                                         <td
                                                             class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 ">
-                                                            <img src="{{ asset('images/' . $finger->right_thumb_path) }}"
-                                                                class="h-24 w-24" />
+                                                            @if ($finger->right_thumb_path != null)
+                                                                <img src="{{ asset('images/' . $finger->right_thumb_path) }}"
+                                                                    class="h-24 w-24" />
+                                                            @else
+                                                                <img src="" class="h-24 w-24" />
+                                                            @endif
                                                         </td>
                                                         <td
                                                             class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-                                                            <img src="{{ asset('images/' . $finger->right_index_path) }}"
-                                                                class="h-24 w-24" />
+                                                            @if ($finger->right_index_path != null)
+                                                                <img src="{{ asset('images/' . $finger->right_index_path) }}"
+                                                                    class="h-24 w-24" />
+                                                            @else
+                                                                <img src="" class="h-24 w-24" />
+                                                            @endif
                                                         </td>
                                                         <td
                                                             class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-                                                            <img src="{{ asset('images/' . $finger->right_middle_path) }}"
-                                                                class="h-24 w-24" />
+                                                            @if ($finger->right_middle_path != null)
+                                                                <img src="{{ asset('images/' . $finger->right_middle_path) }}"
+                                                                    class="h-24 w-24" />
+                                                            @else
+                                                                <img src="" class="h-24 w-24" />
+                                                            @endif
                                                         </td>
                                                         <td
                                                             class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-                                                            <img src="{{ asset('images/' . $finger->right_ring_path) }}"
-                                                                class="h-24 w-24" />
+
+                                                            @if ($finger->right_ring_path != null)
+                                                                <img src="{{ asset('images/' . $finger->right_ring_path) }}"
+                                                                    class="h-24 w-24" />
+                                                            @else
+                                                                <img src="" class="h-24 w-24" />
+                                                            @endif
                                                         </td>
                                                         <td
                                                             class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-                                                            <img src="{{ asset('images/' . $finger->right_little_path) }}"
-                                                                class="h-24 w-24" />
+                                                            @if ($finger->right_little_path != null)
+                                                                <img src="{{ asset('images/' . $finger->right_little_path) }}"
+                                                                    class="h-24 w-24" />
+                                                            @else
+                                                                <img src="" class="h-24 w-24" />
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -469,28 +490,51 @@
                                                     <tr>
                                                         <td
                                                             class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 ">
-                                                            <img src="{{ asset('images/' . $finger->left_thumb_path) }}"
-                                                                class="h-24 w-24" />
+                                                            @if ($finger->left_thumb_path != null)
+                                                                <img src="{{ asset('images/' . $finger->left_thumb_path) }}"
+                                                                    class="h-24 w-24" />
+                                                            @else
+                                                                <img src="" class="h-24 w-24" />
+                                                            @endif
                                                         </td>
                                                         <td
                                                             class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-                                                            <img src="{{ asset('images/' . $finger->left_index_path) }}"
-                                                                class="h-24 w-24" />
+
+
+                                                            @if ($finger->left_index_path != null)
+                                                                <img src="{{ asset('images/' . $finger->left_index_path) }}"
+                                                                    class="h-24 w-24" />
+                                                            @else
+                                                                <img src="" class="h-24 w-24" />
+                                                            @endif
                                                         </td>
                                                         <td
                                                             class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-                                                            <img src="{{ asset('images/' . $finger->left_middle_path) }}"
-                                                                class="h-24 w-24" />
+                                                            @if ($finger->left_middle_path != null)
+                                                                <img src="{{ asset('images/' . $finger->left_middle_path) }}"
+                                                                    class="h-24 w-24" />
+                                                            @else
+                                                                <img src="" class="h-24 w-24" />
+                                                            @endif
                                                         </td>
                                                         <td
                                                             class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-                                                            <img src="{{ asset('images/' . $finger->left_ring_path) }}"
-                                                                class="h-24 w-24" />
+                                                            @if ($finger->left_middle_path != null)
+                                                                <img src="{{ asset('images/' . $finger->left_ring_path) }}"
+                                                                    class="h-24 w-24" />
+                                                            @else
+                                                                <img src="" class="h-24 w-24" />
+                                                            @endif
                                                         </td>
                                                         <td
                                                             class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-                                                            <img src="{{ asset('images/' . $finger->left_little_path) }}"
-                                                                class="h-24 w-24" />
+
+                                                            @if ($finger->left_little_path != null)
+                                                                <img src="{{ asset('images/' . $finger->left_little_path) }}"
+                                                                    class="h-24 w-24" />
+                                                            @else
+                                                                <img src="" class="h-24 w-24" />
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 </tbody>
