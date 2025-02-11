@@ -28,6 +28,8 @@ class InmateRecord extends Component implements HasForms, HasTable
     use InteractsWithTable;
     use InteractsWithForms;
 
+    public $front, $back;
+
     public function table(Table $table): Table
     {
         return $table

@@ -36,8 +36,21 @@ class InmateList extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(Inmate::query()->orderByDesc('created_at'))->headerActions([
-            // Action::make('new')->label('New Inmates')->icon('heroicon-o-user-plus')->color('main')->url(fn (): string => route('admin.inmates-create'))
+            ->query(Inmate::query()->whereHas('descriptiveInformation', function ($query) {
+                $query->whereNotNull('front_path')->whereNotNull('back_path');
+            })->whereHas(
+                'inmateFingerprint',
+                fn($query) => $query->whereNotNull('right_thumb')
+                    ->whereNotNull('right_index')
+                    ->whereNotNull('right_middle')
+                    ->whereNotNull('right_ring')
+                    ->whereNotNull('right_little')
+                    ->whereNotNull('left_thumb')
+                    ->whereNotNull('left_index')
+                    ->whereNotNull('left_middle')
+                    ->whereNotNull('left_ring')
+                    ->whereNotNull('left_little')
+            )->orderByDesc('created_at'))->headerActions([
         ])
             ->columns([
                 TextColumn::make('created_at')->date()->label('CREATED DATE')->searchable(),

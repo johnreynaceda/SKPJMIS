@@ -1,7 +1,7 @@
 <?php
-
 namespace Database\Seeders;
 
+use App\Models\CellBlock;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -14,19 +14,45 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Administrator',
-            'username' => 'admin',
-            'email' => 'admin@gmail.com',
-            'password' => bcrypt('password'),
+            'name'      => 'Administrator',
+            'username'  => 'admin',
+            'email'     => 'admin@gmail.com',
+            'password'  => bcrypt('password'),
             'user_type' => 'admin',
         ]);
 
         User::create([
-            'name' => 'Staff',
-            'username' => 'staff',
-            'email' => 'staff@gmail.com',
-            'password' => bcrypt('password'),
-            'user_type' =>'staff',
+            'name'      => 'Staff',
+            'username'  => 'staff',
+            'email'     => 'staff@gmail.com',
+            'password'  => bcrypt('password'),
+            'user_type' => 'staff',
         ]);
+
+        CellBlock::create([
+            'name'     => 'UNO',
+            'capacity' => 10,
+        ]);
+        CellBlock::create([
+            'name'     => 'DOS',
+            'capacity' => 10,
+        ]);
+        CellBlock::create([
+            'name'     => 'TRES',
+            'capacity' => 10,
+        ]);
+        CellBlock::create([
+            'name'     => 'KWATRO',
+            'capacity' => 10,
+        ]);
+        CellBlock::create([
+            'name'     => 'SINGKO',
+            'capacity' => 10,
+        ]);
+        CellBlock::create([
+            'name'     => 'KITCHEN BOY',
+            'capacity' => 10,
+        ]);
+
     }
 }
