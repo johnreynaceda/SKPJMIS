@@ -212,7 +212,7 @@ class CreateInmate extends Component implements HasForms
         foreach ($this->cases as $key => $case) {
             CaseDetail::create([
                 'inmate_id'        => $inmate->id,
-                'criminal_case_no' => $case['criminal_case_no'],
+                'criminal_case_no' => $case['criminal_case_no'] ?? null,
                 'offense_charge'   => $case['offense_charge'],
                 'judge'            => $case['judge'],
                 'court_branch'     => $case['court_branch'],
@@ -223,7 +223,7 @@ class CreateInmate extends Component implements HasForms
         foreach ($this->previous_cases as $key => $previous) {
             PreviousCaseDetail::create([
                 'inmate_id'        => $inmate->id,
-                'criminal_case_no' => $previous['criminal_case_no'],
+                'criminal_case_no' => $previous['criminal_case_no'] ?? null,
                 'offense_charge'   => $previous['offense_charge'],
                 'judge'            => $previous['judge'],
                 'court_branch'     => $previous['court_branch'],
