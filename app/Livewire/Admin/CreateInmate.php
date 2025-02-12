@@ -20,6 +20,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class CreateInmate extends Component implements HasForms
@@ -71,43 +72,44 @@ class CreateInmate extends Component implements HasForms
                     ])->columns(3),
                 Section::make('OTHER INFORMATION')->description('put all required inputs.')
                     ->schema([
-                        TextInput::make('name_of_father'),
-                        TextInput::make('name_of_mother'),
-                        TextInput::make('name_of_spouse'),
-                        TextInput::make('no_of_children'),
-                        TextInput::make('nearest_kin'),
-                        TextInput::make('address_of_kin'),
-                        TextInput::make('relationship'),
-                        TextInput::make('contact_number'),
-                        TextInput::make('height'),
-                        TextInput::make('weight'),
-                        TextInput::make('religion'),
-                        TextInput::make('nationality'),
-                        TextInput::make('native_origin')->label('Native Origin, Tribal Affiliation'),
-                        TextInput::make('political_affilation'),
-                        TextInput::make('educational_attainment'),
-                        TextInput::make('course'),
-                        TextInput::make('occupation'),
-                        TextInput::make('color_of_hair'),
-                        TextInput::make('color_eyes'),
-                        TextInput::make('blood_type'),
-                        TextInput::make('complexion'),
-                        Textarea::make('bertillion_marks')->columnSpan(4),
-                        DatePicker::make('crime_crommited'),
-                        DateTimePicker::make('date_time_arrested'),
+                        TextInput::make('name_of_father')->required(),
+                        TextInput::make('name_of_mother')->required(),
+                        TextInput::make('name_of_spouse')->required(),
+                        TextInput::make('no_of_children')->required(),
+                        TextInput::make('nearest_kin')->required(),
+                        TextInput::make('address_of_kin')->required(),
+                        TextInput::make('relationship')->required(),
+                        TextInput::make('contact_number')->required(),
+                        TextInput::make('height')->required(),
+                        TextInput::make('weight')->required(),
+                        TextInput::make('religion')->required(),
+                        TextInput::make('nationality')->required(),
+                        TextInput::make('native_origin')->label('Native Origin, Tribal Affiliation')->required(),
+                        TextInput::make('political_affilation')->required(),
+                        TextInput::make('educational_attainment')->required(),
+                        TextInput::make('course')->required(),
+                        TextInput::make('occupation')->required(),
+                        TextInput::make('color_of_hair')->required(),
+                        TextInput::make('color_eyes')->required(),
+                        TextInput::make('blood_type')->required(),
+                        TextInput::make('complexion')->required(),
+                        Textarea::make('bertillion_marks')->columnSpan(4)->required(),
+                        DatePicker::make('crime_commited')->required(),
+                        DateTimePicker::make('date_time_arrested')->required(),
                         Fieldset::make('CIRCUMSTANCES SORROUNDING THE ARREST')->schema([
-                            TextInput::make('arresting_officer'),
-                            DatePicker::make('commited_in_jail'),
-                            TextInput::make('station')->label('Station/Precint'),
+                            TextInput::make('arresting_officer')->required(),
+                            DatePicker::make('commited_in_jail')->required(),
+                            TextInput::make('station')->label('Station/Precint')->required(),
                         ])->columnSpan(4)->columns(4),
-                        TextInput::make('inmate_search_by'),
-                        TextInput::make('inmate_property_held_by'),
-                        TextInput::make('property_receipt_no'),
-                        TextInput::make('kind'),
+                        TextInput::make('inmate_search_by')->required(),
+                        TextInput::make('inmate_property_held_by')->required(),
+                        TextInput::make('property_receipt_no')->required(),
+                        TextInput::make('kind')->required(),
+
                     ])->columns(4),
                 Section::make('CASE DETAILS')->description('put all required inputs.')
                     ->schema([
-                        Repeater::make('cases')->label('')
+                        Repeater::make('cases')->label('')->required()
                             ->schema([
                                 TextInput::make('criminal_case_no')->label('CRIMINAL CASE NO/S')->required(),
                                 TextInput::make('offense_charge')->label('OFFENSE CHARGED')->required(),
@@ -119,7 +121,7 @@ class CreateInmate extends Component implements HasForms
                     ]),
                 Section::make('PREVIOUS CRIMINAL RECORDS')->description('put all required inputs.')
                     ->schema([
-                        Repeater::make('previous_cases')->label('')
+                        Repeater::make('previous_cases')->label('')->required()
                             ->schema([
                                 TextInput::make('criminal_case_no')->label('CRIMINAL CASE NO/S')->required(),
                                 TextInput::make('offense_charge')->label('OFFENSE CHARGED')->required(),
@@ -144,6 +146,79 @@ class CreateInmate extends Component implements HasForms
     public function submitForm()
     {
         sleep(1);
+
+        $this->validate([
+            'firstname'                          => 'required|string|max:255',
+            'middlename'                         => 'nullable|string|max:255',
+            'lastname'                           => 'required|string|max:255',
+            'aliases'                            => 'nullable|string|max:255',
+            'sex'                                => 'required|string|in:Male,Female',
+            'civil_status'                       => 'required|string|in:Single,Married,Divorced,Widowed',
+            'birthdate'                          => 'required|date',
+            'place_of_birth'                     => 'required|string|max:255',
+            'region'                             => 'nullable|string|max:255',
+            'city'                               => 'nullable|string|max:255',
+            'barangay'                           => 'nullable|string|max:255',
+            'street'                             => 'nullable|string|max:255',
+
+            // Other information fields
+            'name_of_father'                     => 'required|string|max:255',
+            'name_of_mother'                     => 'required|string|max:255',
+            'name_of_spouse'                     => 'required|string|max:255',
+            'no_of_children'                     => 'required|numeric',
+            'nearest_kin'                        => 'required|string|max:255',
+            'address_of_kin'                     => 'required|string|max:255',
+            'relationship'                       => 'required|string|max:255',
+            'contact_number'                     => 'required|numeric|min:10|max:15',
+            'height'                             => 'required|numeric',
+            'weight'                             => 'required|numeric',
+            'religion'                           => 'required|string|max:255',
+            'nationality'                        => 'required|string|max:255',
+            'native_origin'                      => 'required|string|max:255',
+            'political_affilation'               => 'required|string|max:255',
+            'educational_attainment'             => 'required|string|max:255',
+            'course'                             => 'required|string|max:255',
+            'occupation'                         => 'required|string|max:255',
+            'color_of_hair'                      => 'required|string|max:255',
+            'color_eyes'                         => 'required|string|max:255',
+            'blood_type'                         => 'required|string|max:5',
+            'complexion'                         => 'required|string|max:255',
+            'bertillion_marks'                   => 'nullable|string',
+            'crime_committed'                    => 'required|date',
+            'date_time_arrested'                 => 'required|date',
+            'arresting_officer'                  => 'required|string|max:255',
+            'commited_in_jail'                   => 'required|date',
+            'station'                            => 'required|string|max:255',
+            'inmate_search_by'                   => 'required|string|max:255',
+            'inmate_property_held_by'            => 'required|string|max:255',
+            'property_receipt_no'                => 'required|string|max:255',
+            'kind'                               => 'required|string|max:255',
+
+            // Case Details Repeater Validation
+            'cases'                              => 'required|array|min:1',
+            'cases.*.criminal_case_no'           => 'required|string|max:255',
+            'cases.*.offense_charge'             => 'required|string|max:255',
+            'cases.*.judge'                      => 'required|string|max:255',
+            'cases.*.court_branch'               => 'required|string|max:255',
+            'cases.*.date_filed'                 => 'required|date',
+
+            // Previous Criminal Records Repeater Validation
+            'previous_cases'                     => 'required|array|min:1',
+            'previous_cases.*.criminal_case_no'  => 'required|string|max:255',
+            'previous_cases.*.offense_charge'    => 'required|string|max:255',
+            'previous_cases.*.judge'             => 'required|string|max:255',
+            'previous_cases.*.court_branch'      => 'required|string|max:255',
+            'previous_cases.*.date_filed'        => 'required|date',
+
+            // Medical Information Validation
+            'medical_certificate_issued_remarks' => 'required|string|max:255',
+            'date_issued'                        => 'required|date',
+            'illness_prior_commitment'           => 'required|string',
+            'medications_used'                   => 'required|string',
+            'jail_nurse'                         => 'required|string|max:255',
+        ]);
+
+        DB::beginTransaction();
         $inmate = Inmate::create([
             'fullname' => $this->firstname . ' ' . $this->lastname,
             'status'   => 'pending',
@@ -213,10 +288,10 @@ class CreateInmate extends Component implements HasForms
             CaseDetail::create([
                 'inmate_id'        => $inmate->id,
                 'criminal_case_no' => $case['criminal_case_no'] ?? null,
-                'offense_charge'   => $case['offense_charge'],
-                'judge'            => $case['judge'],
-                'court_branch'     => $case['court_branch'],
-                'date_filed'       => Carbon::parse($case['date_filed']),
+                'offense_charge'   => $case['offense_charge'] ?? null,
+                'judge'            => $case['judge'] ?? null,
+                'court_branch'     => $case['court_branch'] ?? null,
+                'date_filed'       => Carbon::parse($case['date_filed'] ?? null),
             ]);
         }
 
@@ -224,12 +299,13 @@ class CreateInmate extends Component implements HasForms
             PreviousCaseDetail::create([
                 'inmate_id'        => $inmate->id,
                 'criminal_case_no' => $previous['criminal_case_no'] ?? null,
-                'offense_charge'   => $previous['offense_charge'],
-                'judge'            => $previous['judge'],
-                'court_branch'     => $previous['court_branch'],
-                'date_filed'       => Carbon::parse($previous['date_filed']),
+                'offense_charge'   => $previous['offense_charge'] ?? null,
+                'judge'            => $previous['judge'] ?? null,
+                'court_branch'     => $previous['court_branch'] ?? null,
+                'date_filed'       => Carbon::parse($previous['date_filed'] ?? null),
             ]);
         }
+        DB::commit();
 
         if (auth()->user()->user_type == 'admin') {
             return redirect()->route('admin.inmates');
