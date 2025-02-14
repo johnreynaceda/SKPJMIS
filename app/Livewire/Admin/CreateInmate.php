@@ -20,7 +20,6 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class CreateInmate extends Component implements HasForms
@@ -183,19 +182,18 @@ class CreateInmate extends Component implements HasForms
             'color_eyes'                         => 'required|string|max:255',
             'blood_type'                         => 'required|string|max:5',
             'complexion'                         => 'required|string|max:255',
-            'bertillion_marks'                   => 'nullable|string',
-            'crime_committed'                    => 'required|date',
-            'date_time_arrested'                 => 'required|date',
-            'arresting_officer'                  => 'required|string|max:255',
-            'commited_in_jail'                   => 'required|date',
-            'station'                            => 'required|string|max:255',
-            'inmate_search_by'                   => 'required|string|max:255',
-            'inmate_property_held_by'            => 'required|string|max:255',
-            'property_receipt_no'                => 'required|string|max:255',
-            'kind'                               => 'required|string|max:255',
+            'bertillion_marks'                   => 'required',
+            // 'crime_committed'                    => 'required',
+            'date_time_arrested'                 => 'required',
+            'arresting_officer'                  => 'required',
+            'commited_in_jail'                   => 'required',
+            'station'                            => 'required',
+            'inmate_search_by'                   => 'required',
+            'inmate_property_held_by'            => 'required',
+            'property_receipt_no'                => 'required',
+            'kind'                               => 'required',
 
             // Case Details Repeater Validation
-            'cases'                              => 'required|array|min:1',
             'cases.*.criminal_case_no'           => 'required|string|max:255',
             'cases.*.offense_charge'             => 'required|string|max:255',
             'cases.*.judge'                      => 'required|string|max:255',
@@ -203,7 +201,6 @@ class CreateInmate extends Component implements HasForms
             'cases.*.date_filed'                 => 'required|date',
 
             // Previous Criminal Records Repeater Validation
-            'previous_cases'                     => 'required|array|min:1',
             'previous_cases.*.criminal_case_no'  => 'required|string|max:255',
             'previous_cases.*.offense_charge'    => 'required|string|max:255',
             'previous_cases.*.judge'             => 'required|string|max:255',
@@ -218,7 +215,6 @@ class CreateInmate extends Component implements HasForms
             'jail_nurse'                         => 'required|string|max:255',
         ]);
 
-        DB::beginTransaction();
         $inmate = Inmate::create([
             'fullname' => $this->firstname . ' ' . $this->lastname,
             'status'   => 'pending',
@@ -305,7 +301,6 @@ class CreateInmate extends Component implements HasForms
                 'date_filed'       => Carbon::parse($previous['date_filed'] ?? null),
             ]);
         }
-        DB::commit();
 
         if (auth()->user()->user_type == 'admin') {
             return redirect()->route('admin.inmates');
