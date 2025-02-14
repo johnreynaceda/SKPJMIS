@@ -169,7 +169,7 @@ class CreateInmate extends Component implements HasForms
             'nearest_kin'                        => 'required|string|max:255',
             'address_of_kin'                     => 'required|string|max:255',
             'relationship'                       => 'required|string|max:255',
-            'contact_number'                     => 'required|numeric|min:10|max:15',
+            'contact_number'                     => 'required|numeric',
             'height'                             => 'required|numeric',
             'weight'                             => 'required|numeric',
             'religion'                           => 'required|string|max:255',
