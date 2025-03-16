@@ -32,7 +32,7 @@ class EventList extends Component implements HasForms, HasTable
             ->query(Event::query())->headerActions([
                 CreateAction::make('new')->color('main')->icon('heroicon-o-plus')->form([
                     TextInput::make('name')->required(),
-                    DateTimePicker::make('date')
+                    DateTimePicker::make('date')->withoutSeconds()
                 ])->modalWidth('xl')->modalHeading('Create Event')
             ])
             ->columns([
@@ -44,6 +44,7 @@ class EventList extends Component implements HasForms, HasTable
                 // ...
             ])
             ->actions([
+                Action::make('view')->label('View Attendance')->icon('heroicon-o-clipboard-document-list')->url(fn($record) => route('staff.event-attendance', $record->id)),
                 DeleteAction::make('delete'),
             ])
             ->bulkActions([

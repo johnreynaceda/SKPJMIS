@@ -62,4 +62,9 @@ class Inmate extends Model
     {
         return $this->hasOne(DischargeInfo::class);
     }
+
+    public function eventAttendances()
+    {
+        return $this->hasMany(EventAttendance::class);
+    }
 }

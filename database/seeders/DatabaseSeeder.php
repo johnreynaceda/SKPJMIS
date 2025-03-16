@@ -21,14 +21,7 @@ class DatabaseSeeder extends Seeder
             'user_type' => 'admin',
         ]);
 
-        User::create([
-            'name'      => 'Staff',
-            'username'  => 'staff',
-            'email'     => 'staff@gmail.com',
-            'password'  => bcrypt('password'),
-            'user_type' => 'staff',
-        ]);
-
+      
         CellBlock::create([
             'name'     => 'UNO',
             'capacity' => 10,

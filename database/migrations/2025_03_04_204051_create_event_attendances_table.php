@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inmate_visits', function (Blueprint $table) {
+        Schema::create('event_attendances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('visitor_id');
+            $table->foreignId('event_id');
             $table->foreignId('inmate_id');
-            $table->dateTime('date_of_visit');
+            $table->date('date_of_attendance');
+            $table->time('time_in')->nullable();
+            $table->time('time_out')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('inmate_visits');
+        Schema::dropIfExists('event_attendances');
     }
 };

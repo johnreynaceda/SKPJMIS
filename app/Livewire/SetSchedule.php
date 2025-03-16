@@ -2,10 +2,13 @@
 namespace App\Livewire;
 
 use App\Jobs\VisitingSms;
+use App\Models\CellBlock;
+use App\Models\CellInmate;
 use App\Models\Inmate;
 use App\Models\InmateVisit;
 use App\Models\Visitor;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -17,17 +20,35 @@ use Livewire\Component;
 class SetSchedule extends Component implements HasForms
 {
     use InteractsWithForms;
-    public $visitor, $inmate, $date;
+    public $visitor, $inmate, $date, $block;
     public function form(Form $form): Form
     {
         return $form
             ->schema([
                 Grid::make(2)->schema([
-                    Select::make('visitor')->options(Visitor::all()->pluck('fullname', 'id'))->searchable(),
+                    Select::make('visitor')
+                    ->options(Visitor::all()->pluck('fullname', 'id'))
+                    ->searchable(),
+                
+                Select::make('block')
+                    ->options(CellBlock::all()->pluck('name', 'id'))
+                    ->required()
+                    ->reactive() // This will automatically refresh other fields
+                    ->searchable(),
                 ]),
-                Grid::make(2)->schema([
-                    Select::make('inmate')->options(Inmate::all()->pluck('fullname', 'id'))->required()->searchable(),
-                    DatePicker::make('date')->label('Date of Visit')->required(),
+                Grid::make(2)->hidden($this->block == null)->schema([
+                    Select::make('inmate')
+                    ->options(fn () => $this->block ? CellInmate::where('cell_block_id', $this->block)->get()->mapWithKeys( function($record){
+                        return [$record->inmate_id => $record->inmate->fullname];
+                    }) : [])
+                    ->required()
+                    ->searchable()
+                    ->reactive(), // This will automatically refresh when block is selected
+                
+                DateTimePicker::make('date')
+                    ->label('Date of Visit')
+                    ->withoutSeconds()
+                    ->required(),
                 ]),
             ]);
     }
@@ -43,7 +64,7 @@ class SetSchedule extends Component implements HasForms
 
         $visitor_info = Visitor::where('id', $this->visitor)->first();
 
-        VisitingSms::dispatch($visitor_info->contact, $this->date)->delay(now()->addMinutes(2));
+        VisitingSms::dispatch($visitor_info->contact, $this->date)->delay(now()->addMinutes(1));
 
         return redirect()->route('welcome');
     }

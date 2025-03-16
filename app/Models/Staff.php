@@ -13,4 +13,12 @@ class Staff extends Model
    public function staffAttendances(){
     return $this->hasMany(StaffAttendance::class);
    }
+
+   public function staffInfo(){
+     return $this->hasOne(StaffInfo::class);
+   }
+
+   public function user(){
+     return $this->belongsTo(User::class);
+   }
 }

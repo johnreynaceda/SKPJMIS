@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UploadController;
+use App\Http\Controllers\WebcamController;
 use App\Http\Middleware\Admin;
 use App\Http\Middleware\Staff;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +18,8 @@ Route::get('/visitor-profiling', function () {
 Route::get('/set-schedule', function () {
     return view('pages.set-schedule');
 })->name('set-schedule');
+
+Route::post('/save-image', [UploadController::class, 'upload'])->name('upload');
 
 Route::get('/dashboard', function () {
     switch (auth()->user()->user_type) {
@@ -65,6 +69,9 @@ Route::prefix('admin')->middleware(['auth', 'verified', Admin::class])->group(fu
     Route::get('reports', function () {
         return view('admin.reports');
     })->name('admin.reports');
+    Route::get('create-user', function () {
+        return view('admin.create-user');
+    })->name('admin.create-user');
 });
 
 //staff routes
@@ -75,6 +82,9 @@ Route::prefix('staff')->middleware(['auth', 'verified', Staff::class])->group(fu
     Route::get('inmates', function () {
         return view('staff.inmates');
     })->name('staff.inmates');
+    Route::get('inmate-description/{id}', function () {
+        return view('staff.inmate-description');
+    })->name('staff.inmate-description');
     Route::get('inmates/create', function () {
         return view('staff.inmate-create');
     })->name('staff.inmate-create');
@@ -90,9 +100,15 @@ Route::prefix('staff')->middleware(['auth', 'verified', Staff::class])->group(fu
     Route::get('cell', function () {
         return view('staff.cell');
     })->name('staff.cell');
+    Route::get('cell/{id}', function () {
+        return view('staff.cell-inmate');
+    })->name('staff.cell-inmate');
     Route::get('events', function () {
         return view('staff.events');
     })->name('staff.events');
+    Route::get('events/{id}', function () {
+        return view('staff.event-attendance');
+    })->name('staff.event-attendance');
     Route::get('reports', function () {
         return view('staff.reports');
     })->name('staff.reports');

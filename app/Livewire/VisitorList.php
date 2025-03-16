@@ -7,12 +7,14 @@ use App\Models\Shop\Product;
 use App\Models\Visitor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ViewField;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -55,6 +57,10 @@ class VisitorList extends Component implements HasForms, HasTable
                 // ...
             ])
             ->actions([
+                ViewAction::make('upload_ids')->label('View Valid ID')->color('warning')->form([
+                    ViewField::make('upload')
+                    ->view('filament.forms.valid-id')
+                ])->modalWidth('xl')->modalHeading('View Uploaded Valid ID'),
                 ActionGroup::make([
                     Action::make('view')->color('warning')->icon('heroicon-o-eye'),
                     Action::make('edit')->color('success')->icon('heroicon-o-pencil'),

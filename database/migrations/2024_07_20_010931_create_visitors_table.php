@@ -16,6 +16,9 @@ return new class extends Migration
             $table->foreignId('inmate_id');
             $table->string('fullname');
             $table->string('contact');
+            $table->string('type_of_identification');
+            $table->string('front_path');
+            $table->string('back_path');
             $table->string('relationship');
             $table->binary('fingerprint')->nullable();
             $table->timestamps();

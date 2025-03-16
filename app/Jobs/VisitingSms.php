@@ -29,8 +29,8 @@ class VisitingSms implements ShouldQueue
             $parameters = [
                 'apikey'     => '1aaad08e0678a1c60ce55ad2000be5bd', //Your API KEY
                 'number'     => $this->contact,
-                'message'    => "SKPJMIS SMS \n\n" . "Dear Visitor," . "\n\n" . "Your Visitation Schedule will be on " . Carbon::parse($this->date)->format('F d, Y') . ". " . "Please make sure to arrive on time.",
-                'sendername' => 'ELOIS',
+                'message'    => "SKPJMIS SMS \n\n" . "Dear Visitor," . "\n\n" . "Your Visitation Schedule will be on " . Carbon::parse($this->date)->format('F d, Y h:i A') . ". " . "Please make sure to arrive on time.",
+                'sendername' => 'SEGU',
             ];
             curl_setopt($ch, CURLOPT_URL, 'https://semaphore.co/api/v4/messages');
             curl_setopt($ch, CURLOPT_POST, 1);

@@ -44,25 +44,25 @@
                         <span class=" ">CRIMINAL CASE/S NO./S:</span>
                     </div>
                     <div class="border col-span-2 p-1">
-                        <span class="font-semibold ">{{ $getRecord()->dischargeInfo->criminal_case }}</span>
+                        <span class="font-semibold ">{{ $getRecord()->dischargeInfo->criminal_case ?? '' }}</span>
                     </div>
                     <div class="border col-span-1 p-1">
                         <span class=" ">CLASS:</span>
                     </div>
                     <div class="border col-span-2 p-1">
-                        <span class="font-semibold ">{{ $getRecord()->dischargeInfo->class }}</span>
+                        <span class="font-semibold ">{{ $getRecord()->dischargeInfo->class ?? '' }}</span>
                     </div>
                     <div class="border col-span-3 p-1">
                         <span class=" ">Who was sentenced/committed on:</span>
                     </div>
                     <div class="border col-span-4 p-1">
-                        <span class="font-semibold ">{{ $getRecord()->dischargeInfo->committed_on }}</span>
+                        <span class="font-semibold ">{{ $getRecord()->dischargeInfo->committed_on ?? '' }}</span>
                     </div>
                     <div class="border col-span-1 p-1">
                         <span class=" ">By:</span>
                     </div>
                     <div class="border col-span-6 p-1">
-                        <span class="font-semibold ">{{ $getRecord()->dischargeInfo->by }}</span>
+                        <span class="font-semibold ">{{ $getRecord()->dischargeInfo->by ?? '' }}</span>
                     </div>
                     <div class="border col-span-7 p-1">
                         <span class=" ">To be confined in jail during pendency of his/her/their case/s</span>
@@ -71,26 +71,26 @@
                         <span class=" ">For:</span>
                     </div>
                     <div class="border col-span-6 p-1">
-                        <span class="font-semibold ">{{ $getRecord()->dischargeInfo->for }}</span>
+                        <span class="font-semibold ">{{ $getRecord()->dischargeInfo->for ?? '' }}</span>
                     </div>
                     <div class="border col-span-4 p-1">
                         <span class=" ">is released from confinement this date</span>
                     </div>
                     <div class="border col-span-3 p-1">
-                        <span class="font-semibold ">{{ $getRecord()->dischargeInfo->release }}</span>
+                        <span class="font-semibold ">{{ $getRecord()->dischargeInfo->release ?? '' }}</span>
                     </div>
                     <div class="border col-span-4 p-1">
                         <span class=" ">For the case filed againts him/her/them, as per Order of</span>
                     </div>
                     <div class="border col-span-3 p-1">
-                        <span class="font-semibold ">{{ $getRecord()->dischargeInfo->order_of }}</span>
+                        <span class="font-semibold ">{{ $getRecord()->dischargeInfo->order_of ?? '' }}</span>
                     </div>
                     <div class="border col-span-1 p-1">
                         <span class=" ">Dated</span>
                     </div>
                     <div class="border col-span-6 p-1">
                         <span
-                            class="font-semibold ">{{ \Carbon\Carbon::parse($getRecord()->dischargeInfo->date)->format('F d, Y') }}</span>
+                            class="font-semibold ">{{ $getRecord()->dischargeInfo != null ? \Carbon\Carbon::parse($getRecord()->dischargeInfo->date)->format('F d, Y') : '' }}</span>
                     </div>
                     <div class="border col-span-7 p-4">
                         <span class="font-semibold "></span>
@@ -99,25 +99,25 @@
                         <span class=" ">Number of previous term if imprisonment:</span>
                     </div>
                     <div class="border col-span-4 p-1">
-                        <span class="font-semibold ">{{ $getRecord()->dischargeInfo->previous_term }}</span>
+                        <span class="font-semibold ">{{ $getRecord()->dischargeInfo->previous_term ?? '' }}</span>
                     </div>
                     <div class="border col-span-1 p-1">
                         <span class=" ">REMARKS</span>
                     </div>
                     <div class="border col-span-6 p-1">
-                        <span class="font-semibold ">{{ $getRecord()->dischargeInfo->remarks }}</span>
+                        <span class="font-semibold ">{{ $getRecord()->dischargeInfo->remarks ?? '' }}</span>
                     </div>
                     <div class="border col-span-2 p-1">
                         <span class=" ">Date of Dicharge</span>
                     </div>
                     <div class="border col-span-5 p-1">
                         <span
-                            class="font-semibold ">{{ \Carbon\Carbon::parse($getRecord()->dischargeInfo->date_of_discharge)->format('F d, Y') }}</span>
+                            class="font-semibold ">{{ $getRecord()->dischargeInfo != null ? Carbon\Carbon::parse($getRecord()->dischargeInfo->date_of_discharge)->format('F d, Y') : '' }}</span>
                     </div>
                 </div>
                 <div class="mt-5  flex justify-between items-center">
                     <div>
-                        <h1 class="border-b-2 border-black font-bold text-center">{{ $getRecord()->fullname }}</h1>
+                        <h1 class="border-b-2 border-black font-bold text-center">{{ $getRecord()->fullname  }}</h1>
                         <h1 class="text-center">Signature of Prisoner</h1>
                     </div>
                     <div>

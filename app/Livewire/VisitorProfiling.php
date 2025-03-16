@@ -6,6 +6,7 @@ use App\Models\Inmate;
 use App\Models\Post;
 use App\Models\Visitor;
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\MarkdownEditor;
@@ -19,7 +20,7 @@ class VisitorProfiling extends Component implements HasForms
 {
     use InteractsWithForms;
 
-    public $firstname, $lastname, $contact, $relationship, $inmate_id;
+    public $firstname, $lastname, $contact, $relationship, $inmate_id, $valid_id, $front=[], $back=[];
 
     public function form(Form $form): Form
     {
@@ -29,6 +30,29 @@ class VisitorProfiling extends Component implements HasForms
                     TextInput::make('firstname'),
                     TextInput::make('lastname'),
                     TextInput::make('contact')->numeric(),
+                    Select::make('valid_id')
+                    ->label('Valid ID')
+                    ->options([
+                        'passport' => 'Passport',
+                        'driver_license' => 'Driver’s License',
+                        'sss' => 'SSS ID',
+                        'philhealth' => 'PhilHealth ID',
+                        'pagibig' => 'Pag-IBIG ID',
+                        'voters' => 'Voter’s ID',
+                        'prc' => 'PRC ID',
+                        'postal' => 'Postal ID',
+                        'umid' => 'UMID',
+                        'barangay' => 'Barangay ID',
+                        'national' => 'National ID',
+                    ])
+                    ->searchable()
+                    ->placeholder('Select Valid ID')
+                    ->required(),
+                    Fieldset::make('Upload Valid ID')->schema([
+                        FileUpload::make('front')->required(),
+                    FileUpload::make('back')->required(),
+                    ])
+                
                     
                     
                 ]),
@@ -47,6 +71,9 @@ class VisitorProfiling extends Component implements HasForms
             'inmate_id' => $this->inmate_id,
             'fullname' => $this->firstname.' '.$this->lastname,
             'contact' => $this->contact,
+            'type_of_identification' => $this->valid_id,
+            'front_path' => reset($this->front)->store('ID', 'public'),
+            'back_path' => reset($this->back)->store('ID', 'public'),
            'relationship' => $this->relationship,
         ]);
 

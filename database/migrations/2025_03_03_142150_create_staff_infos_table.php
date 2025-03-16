@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inmate_visits', function (Blueprint $table) {
+        Schema::create('staff_infos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('visitor_id');
-            $table->foreignId('inmate_id');
-            $table->dateTime('date_of_visit');
+            $table->foreignId('staff_id');
+            $table->string('firstname');
+            $table->string('lastname');
+            $table->string('middlename')->nullable();
+            $table->string('address');
+            $table->string('contact');
+            $table->string('image_path')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('inmate_visits');
+        Schema::dropIfExists('staff_infos');
     }
 };

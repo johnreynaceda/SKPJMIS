@@ -1,6 +1,7 @@
 <?php
 namespace App\Livewire\Admin;
 
+use App\Models\CellInmate;
 use App\Models\DescriptiveInformation;
 use App\Models\DischargeInfo;
 use App\Models\Inmate;
@@ -143,6 +144,8 @@ class InmateList extends Component implements HasForms, HasTable
 
                             // Ensure the record updates properly
                             $record->update(['status' => 'discharge']);
+
+                            // CellInmate::where('inmate_id', $record->id)->delete();
                         }
                     ),
 

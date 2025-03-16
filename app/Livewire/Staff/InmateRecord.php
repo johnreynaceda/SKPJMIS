@@ -21,6 +21,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 
 class InmateRecord extends Component implements HasForms, HasTable
@@ -69,7 +70,7 @@ class InmateRecord extends Component implements HasForms, HasTable
                             ])->columns(1),
                         ]),
                     ])->modalHeading('')->modalWidth('7xl')->modalSubmitAction(false),
-                    Action::make('decriptive_record')->label('Descriptive Record')->icon('heroicon-o-document-text')->form([
+                    Action::make('decriptive_record')->label('Descriptive Record')->icon('heroicon-o-document-text')->url(fn($record) => route('staff.inmate-description',['id' => $record->id]))->form([
                         Section::make('DESCRIPTIVE RECORD')
                             ->description('This descriptive Record form will be used for all prisoners confined in a provincial prison and a copy of same certified as true and correct will accompany all prisoners upon their transfer from a provincial prison in addition to the commitment required by Executive Order No. 55 of 1997. In the identification record scars, marks and moles as well as the designation of missing members and deformities or peculiarities with dimension is millimeters will be recorded and located on the figure. Special care will be taken in lining and valuing prisoners effects and in securing their verifications to effect as listed and valued.')
                             ->schema([
@@ -78,10 +79,11 @@ class InmateRecord extends Component implements HasForms, HasTable
                             ])->columns(2),
                     ])->modalWidth('6xl')->action(
                         function ($record, $data) {
+                            dd($this->front);
                             DescriptiveInformation::create([
                                 'inmate_id'  => $record->id,
                                 'front_path' => $this->front->store('Front', 'public'),
-                                'back_path'  => $this->back->store('Back', 'public'),
+                                'back_path'  => $this->back ? $this->back->store('Back', 'public') : null,
                             ]);
                         }
                     ),
@@ -129,6 +131,30 @@ class InmateRecord extends Component implements HasForms, HasTable
                 // ...
             ])->emptyStateHeading('No Inmates yet')->emptyStateDescription('Once you write your first inmate, it will appear here.');
     }
+
+    public function updatedFront($image)
+    {
+        if ($image) {
+            $this->front = $this->convertBase64ToUploadedFile($image);
+        }
+    }
+    public function updatedBack($image)
+    {
+        if ($image) {
+            $this->back = $this->convertBase64ToUploadedFile($image);
+        }
+    }
+    
+    public function convertBase64ToUploadedFile($base64Image)
+    {
+        $image = str_replace('data:image/png;base64,', '', $base64Image);
+        $image = base64_decode($image);
+        $filename = uniqid() . '.png';
+        $file = tempnam(sys_get_temp_dir(), 'upload');
+        file_put_contents($file, $image);
+        return new \Livewire\Features\SupportFileUploads\TemporaryUploadedFile($file, $filename);
+    }
+
 
     public function render()
     {

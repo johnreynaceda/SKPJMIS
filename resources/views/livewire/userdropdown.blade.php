@@ -7,8 +7,7 @@
 
             <button @click="dropdownOpen=true"
                 class="inline-flex items-center justify-center h-12 py-2 pl-3 pr-12 text-sm font-medium transition-colors bg-white border rounded-md text-neutral-700 hover:bg-neutral-100 active:bg-white focus:bg-white focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
-                <img src="https://cdn.devdojo.com/images/may2023/adam.jpeg"
-                    class="object-cover w-8 h-8 border rounded-full border-neutral-200" />
+
                 <span class="flex flex-col items-start flex-shrink-0 h-full ml-2 leading-none translate-y-px">
                     <span>{{ auth()->user()->name }}</span>
                     <span class="text-xs font-light text-neutral-400">{{ auth()->user()->email }}</span>
@@ -28,9 +27,9 @@
                     <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
                     <a href="#_"
                         class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="w-4 h-4 mr-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="w-4 h-4 mr-2">
                             <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
                             <circle cx="12" cy="7" r="4"></circle>
                         </svg>
@@ -42,8 +41,7 @@
                     <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <a href="route('logout')"
-                            onclick="event.preventDefault();
+                        <a href="route('logout')" onclick="event.preventDefault();
                                 this.closest('form').submit();"
                             class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"

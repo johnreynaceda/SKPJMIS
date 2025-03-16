@@ -4,6 +4,7 @@ namespace App\Livewire\Admin;
 use App\Models\CellBlock;
 use App\Models\CellInmate;
 use App\Models\Inmate;
+use Closure;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ViewField;
@@ -72,13 +73,18 @@ class CellBlockList extends Component implements HasForms, HasTable
 
                         }
                     ),
-                    ViewAction::make('view')->color('warning')->label('View Inmates')->form([
-                        ViewField::make('rating')
-                            ->view('filament.forms.inmates'),
-                    ])->modalHeading('List of Inmates'),
+                    Action::make('view')->color('warning')->label('View Inmates')->url(fn($record) => route('staff.cell-inmate', $record->id)),
                     EditAction::make('edit')->color('success')->form([
                         TextInput::make('name')->required()->disabled(),
-                        TextInput::make('capacity')->numeric()->required(),
+                        TextInput::make('capacity')->numeric()->required()->rule(function ($record) {
+                            return function (string $attribute, $value, Closure $fail) use ($record) {
+                                $cellInmateCount = CellInmate::where('cell_block_id', $record->id)->count();
+            
+                                if ($value < $cellInmateCount) {
+                                    $fail('The capacity cannot be lower than the current number of inmates (' . $cellInmateCount . ').');
+                                }
+                            };
+                        }),
                     ])->modalWidth('xl')->modalHeading('Edit Cell Block')->hidden(fn() => auth()->user()->user_type == 'admin'),
                 ]),
             ])

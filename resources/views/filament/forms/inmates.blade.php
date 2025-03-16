@@ -9,7 +9,8 @@
                         <p class="text-sm font-semibold leading-6 uppercase text-gray-900">{{ $item->inmate->fullname }}
                         </p>
                         <p class="mt-1 truncate text-xs leading-3 text-gray-500">
-                            {{ \Carbon\Carbon::parse($item->inmate->created_at)->format('F d, Y') }}</p>
+                            {{ \Carbon\Carbon::parse($item->inmate->created_at)->format('F d, Y') }}
+                        </p>
                     </div>
                 </div>
                 <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">

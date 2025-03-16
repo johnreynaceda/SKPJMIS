@@ -25,7 +25,7 @@ use Livewire\Component;
 class CreateInmate extends Component implements HasForms
 {
     use InteractsWithForms;
-    public $cases = [[]];
+    public $cases = [];
 
     //personal info
     public $firstname, $middlename, $lastname, $aliases, $sex, $civil_status, $birthdate, $place_of_birth, $region, $city, $barangay, $street;
@@ -33,9 +33,9 @@ class CreateInmate extends Component implements HasForms
     //other info
     public $name_of_father, $name_of_mother, $name_of_spouse, $no_of_children, $nearest_kin, $address_of_kin, $relationship, $contact_number, $height, $weight, $religion, $nationality, $native_origin, $political_affilation, $educational_attainment, $course, $occupation, $color_of_hair, $color_eyes, $blood_type, $complexion, $bertillion_marks, $crime_committed, $date_time_arrested, $arresting_officer, $commited_in_jail, $station, $inmate_search_by, $inmate_property_held_by, $property_receipt_no, $kind;
 
-    public $previous_cases = [[]];
+    public $previous_cases = [];
 
-    public $medical_certificate_issued_remarks, $date_issued, $illness_prior_commitment, $medications_used, $jail_nurse;
+    public $medical_certificate_issued_remarks, $medical_date_issued, $illness_prior_commitment, $medications_used, $jail_nurse;
 
     public function form(Form $form): Form
     {
@@ -130,14 +130,19 @@ class CreateInmate extends Component implements HasForms
 
                             ])->defaultItems(1)->addActionLabel('Add Case')->columns(4),
                     ]),
-                Fieldset::make('')->schema([
-                    TextInput::make('medical_certificate_issued_remarks'),
-                    DatePicker::make('date_issued'),
-                    Textarea::make('illness_prior_commitment'),
-                    Textarea::make('medications_used'),
-                    TextInput::make('jail_nurse'),
+                // Fieldset::make('')->schema([
+                //     
 
-                ]),
+                // ]),
+                Section::make('Medical Information')
+                ->schema([
+                    TextInput::make('medical_certificate_issued_remarks'),
+                        DatePicker::make('medical_date_issued'),
+                        Textarea::make('illness_prior_commitment'),
+                        Textarea::make('medications_used'),
+                        TextInput::make('jail_nurse'),
+                ])->columns(4)->collapsible()
+                ->persistCollapsed()
             ]);
 
     }
@@ -193,26 +198,26 @@ class CreateInmate extends Component implements HasForms
             'property_receipt_no'                => 'required',
             'kind'                               => 'required',
 
-            // Case Details Repeater Validation
-            'cases.*.criminal_case_no'           => 'required|string|max:255',
-            'cases.*.offense_charge'             => 'required|string|max:255',
-            'cases.*.judge'                      => 'required|string|max:255',
-            'cases.*.court_branch'               => 'required|string|max:255',
-            'cases.*.date_filed'                 => 'required|date',
+            // // Case Details Repeater Validation
+            // 'cases.*.criminal_case_no'           => 'required|string|max:255',
+            // 'cases.*.offense_charge'             => 'required|string|max:255',
+            // 'cases.*.judge'                      => 'required|string|max:255',
+            // 'cases.*.court_branch'               => 'required|string|max:255',
+            // 'cases.*.date_filed'                 => 'required|date',
 
-            // Previous Criminal Records Repeater Validation
-            'previous_cases.*.criminal_case_no'  => 'required|string|max:255',
-            'previous_cases.*.offense_charge'    => 'required|string|max:255',
-            'previous_cases.*.judge'             => 'required|string|max:255',
-            'previous_cases.*.court_branch'      => 'required|string|max:255',
-            'previous_cases.*.date_filed'        => 'required|date',
+            // // Previous Criminal Records Repeater Validation
+            // 'previous_cases.*.criminal_case_no'  => 'required|string|max:255',
+            // 'previous_cases.*.offense_charge'    => 'required|string|max:255',
+            // 'previous_cases.*.judge'             => 'required|string|max:255',
+            // 'previous_cases.*.court_branch'      => 'required|string|max:255',
+            // 'previous_cases.*.date_filed'        => 'required|date',
 
             // Medical Information Validation
-            'medical_certificate_issued_remarks' => 'required|string|max:255',
-            'date_issued'                        => 'required|date',
-            'illness_prior_commitment'           => 'required|string',
-            'medications_used'                   => 'required|string',
-            'jail_nurse'                         => 'required|string|max:255',
+            // 'medical_certificate_issued_remarks' => 'required|string|max:255',
+            // 'date_issued'                        => 'required|date',
+            // 'illness_prior_commitment'           => 'required|string',
+            // 'medications_used'                   => 'required|string',
+            // 'jail_nurse'                         => 'required|string|max:255',
         ]);
 
         $inmate = Inmate::create([
@@ -274,7 +279,7 @@ class CreateInmate extends Component implements HasForms
             'property_receipt_no'                => $this->property_receipt_no,
             'kind'                               => $this->kind,
             'medical_certificate_issued_remarks' => $this->medical_certificate_issued_remarks,
-            'date_issued'                        => Carbon::parse($this->date_issued),
+            'date_issued'                        => Carbon::parse($this->medical_date_issued),
             'illness_prior_commitment'           => $this->illness_prior_commitment,
             'medications_used'                   => $this->medications_used,
             'jail_nurse'                         => $this->jail_nurse,

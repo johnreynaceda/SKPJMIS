@@ -6,5 +6,5 @@
 
     </div>
 @else
-    <x-input label="Front" type="file" wire:model="front" />
+    <input type="file" accept="image/*" wire:model="front" capture="environment">
 @endif
