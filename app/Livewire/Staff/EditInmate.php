@@ -1,12 +1,8 @@
 <?php
-namespace App\Livewire\Admin;
 
-use App\Models\CaseDetail;
+namespace App\Livewire\Staff;
+
 use App\Models\Inmate;
-use App\Models\InmateFingerprint;
-use App\Models\OtherInformation;
-use App\Models\PersonalInformation;
-use App\Models\PreviousCaseDetail;
 use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
@@ -21,27 +17,71 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
-use Psy\Readline\Hoa\Console;
 
-class CreateInmate extends Component implements HasForms
+class EditInmate extends Component implements HasForms
 {
     use InteractsWithForms;
-    public $cases = [];
 
-    //personal info
-    public $firstname, $middlename, $lastname, $aliases, $sex, $civil_status, $birthdate, $place_of_birth, $region, $city, $barangay, $street;
+    public $data;
+    public $inmate;
 
-    //other info
-    public $name_of_father, $name_of_mother, $name_of_spouse, $no_of_children, $nearest_kin, $address_of_kin, $relationship, $contact_number, $height, $weight, $religion, $nationality, $native_origin, $political_affilation, $educational_attainment, $course, $occupation, $color_of_hair, $color_eyes, $blood_type, $complexion, $bertillion_marks, $crime_commited, $date_time_arrested, $arresting_officer, $commited_in_jail, $station, $inmate_search_by, $inmate_property_held_by, $property_receipt_no, $kind;
+    public function mount()
+    {
+        $this->inmate = Inmate::where('id', request('id'))->first();
 
-    public $previous_cases = [];
+        $this->data = [
+            'firstname' => $this->inmate->personalInformation->firstname,
+            'middlename' => $this->inmate->personalInformation->middlename,
+            'lastname' => $this->inmate->personalInformation->lastname,
+            'aliases' => $this->inmate->personalInformation->aliases,
+            'sex' => $this->inmate->personalInformation->sex,
+            'civil_status' => $this->inmate->personalInformation->civil_status,
+            'birthdate' => $this->inmate->personalInformation->birthdate,
+            'place_of_birth' => $this->inmate->personalInformation->place_of_birth,
+            'street' => $this->inmate->personalInformation->street,
+            'barangay' => $this->inmate->personalInformation->barangay,
+            'municipality' => $this->inmate->personalInformation->city,
+            'province' => $this->inmate->personalInformation->province,
+            'region' => $this->inmate->personalInformation->region,
 
-    public $province, $municipality;
+            'name_of_father' => $this->inmate->otherInformation->name_of_father,
+            'name_of_mother' => $this->inmate->otherInformation->name_of_mother,
+            'name_of_spouse' => $this->inmate->otherInformation->name_of_spouse,
+            'name_of_guardian' => $this->inmate->otherInformation->name_of_guardian,
+            'no_of_children' => $this->inmate->otherInformation->no_of_children,
+            'nearest_kin' => $this->inmate->otherInformation->nearest_kin,
+            'address_of_kin' => $this->inmate->otherInformation->address_of_kin,
+            'relationship' => $this->inmate->otherInformation->relationship,
+            'contact_number' => $this->inmate->otherInformation->contact_number,
+            'occupation' => $this->inmate->otherInformation->occupation,
+            'bertillion_marks' => $this->inmate->otherInformation->bertillon_marks,
+            'native_origin' => $this->inmate->otherInformation->native_origin,
+            'nationality' => $this->inmate->otherInformation->nationality,
+            'educational_attainment' => $this->inmate->otherInformation->educational_attainment,
+            'course' => $this->inmate->otherInformation->course,
+            'color_eyes' => $this->inmate->otherInformation->color_of_eyes,
+            'height' => $this->inmate->otherInformation->height,
+            'weight' => $this->inmate->otherInformation->weight,
+            'religion' => $this->inmate->otherInformation->religion,
+            'blood_type' => $this->inmate->otherInformation->blood_type,
+            'color_of_hair' => $this->inmate->otherInformation->color_of_hair,
+            'complexion' => $this->inmate->otherInformation->complexion,
 
-    public $medical_certificate_issued_remarks, $medical_date_issued, $illness_prior_commitment, $medications_used, $jail_nurse;
+            'crime_commited' => Carbon::parse($this->inmate->otherInformation->crime_commited),
+            'date_time_arrested' => Carbon::parse($this->inmate->otherInformation->date_time_arrested),
+            'arresting_officer' => $this->inmate->otherInformation->arresting_officer,
+            'place_of_arrest' => $this->inmate->otherInformation->place_of_arrest,
+            'station' => $this->inmate->otherInformation->station,
+            'commited_in_jail' => $this->inmate->otherInformation->commited_in_jail,
+            'inmate_search_by' => $this->inmate->otherInformation->inmate_search_by,
+            'inmate_property_held_by' => $this->inmate->otherInformation->inmate_property_held_by,
+            'property_receipt_no' => $this->inmate->otherInformation->property_receipt_no,
+            'property_value' => $this->inmate->otherInformation->property_value,
+            'kind' => $this->inmate->otherInformation->kind,
+        ];
+    }
+
 
     public function form(Form $form): Form
     {
@@ -234,196 +274,31 @@ class CreateInmate extends Component implements HasForms
                         TextInput::make('jail_nurse'),
                     ])->columns(4)->collapsible()
                     ->persistCollapsed()
-            ]);
+            ])->statePath('data');
 
     }
 
-    public function submitForm()
+    public function updateRecord()
     {
-
-        $regionName = collect(json_decode(file_get_contents(base_path('resources/js/address/refregion.json')), true)['RECORDS'] ?? [])
-            ->firstWhere('regCode', $this->region)['regDesc'] ?? null;
-        $provinceName = collect(json_decode(file_get_contents(base_path('resources/js/address/refprovince.json')), true)['RECORDS'] ?? [])
-            ->firstWhere('provCode', $this->province)['provDesc'] ?? null;
-
-        // Get Municipality Name
-        $municipalityName = collect(json_decode(file_get_contents(base_path('resources/js/address/refcitymun.json')), true)['RECORDS'] ?? [])
-            ->firstWhere('citymunCode', $this->municipality)['citymunDesc'] ?? null;
-
-        // Get Barangay Name
-        $barangayName = collect(json_decode(file_get_contents(base_path('resources/js/address/refbrgy.json')), true)['RECORDS'] ?? [])
-            ->firstWhere('brgyCode', $this->barangay)['brgyDesc'] ?? null;
-
-        // dd($regionName, $provinceName, $municipalityName, $barangayName);
-        sleep(1);
-
-        $this->validate([
-            'firstname' => 'required|string|max:255',
-            'middlename' => 'nullable|string|max:255',
-            'lastname' => 'required|string|max:255',
-            'aliases' => 'nullable|string|max:255',
-            'sex' => 'required|string|in:Male,Female',
-            'civil_status' => 'required|string|in:Single,Married,Divorced,Widowed',
-            'birthdate' => 'required|date',
-            'place_of_birth' => 'required|string|max:255',
-            'region' => 'nullable|string|max:255',
-            'province' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'barangay' => 'nullable|string|max:255',
-            'street' => 'nullable|string|max:255',
-
-            // Other information fields
-            'name_of_father' => 'required|string|max:255',
-            'name_of_mother' => 'required|string|max:255',
-            'name_of_spouse' => 'required|string|max:255',
-            'no_of_children' => 'required|numeric',
-            'nearest_kin' => 'required|string|max:255',
-            'address_of_kin' => 'required|string|max:255',
-            'relationship' => 'required|string|max:255',
-            'contact_number' => 'required|numeric',
-            'height' => 'required|numeric',
-            'weight' => 'required|numeric',
-            'religion' => 'required|string|max:255',
-            'nationality' => 'required|string|max:255',
-            'native_origin' => 'required|string|max:255',
-            'political_affilation' => 'required|string|max:255',
-            'educational_attainment' => 'required|string|max:255',
-            'course' => 'required|string|max:255',
-            'occupation' => 'required|string|max:255',
-            'color_of_hair' => 'required|string|max:255',
-            'color_eyes' => 'required|string|max:255',
-            'blood_type' => 'required|string|max:5',
-            'complexion' => 'required|string|max:255',
-            'bertillion_marks' => 'required',
-            // 'crime_committed'                    => 'required',
-            'date_time_arrested' => 'required',
-            'arresting_officer' => 'required',
-            'commited_in_jail' => 'required',
-            'station' => 'required',
-            'inmate_search_by' => 'required',
-            'inmate_property_held_by' => 'required',
-            'property_receipt_no' => 'required',
-            'kind' => 'required',
-
-            // // Case Details Repeater Validation
-            // 'cases.*.criminal_case_no'           => 'required|string|max:255',
-            // 'cases.*.offense_charge'             => 'required|string|max:255',
-            // 'cases.*.judge'                      => 'required|string|max:255',
-            // 'cases.*.court_branch'               => 'required|string|max:255',
-            // 'cases.*.date_filed'                 => 'required|date',
-
-            // // Previous Criminal Records Repeater Validation
-            // 'previous_cases.*.criminal_case_no'  => 'required|string|max:255',
-            // 'previous_cases.*.offense_charge'    => 'required|string|max:255',
-            // 'previous_cases.*.judge'             => 'required|string|max:255',
-            // 'previous_cases.*.court_branch'      => 'required|string|max:255',
-            // 'previous_cases.*.date_filed'        => 'required|date',
-
-            // Medical Information Validation
-            // 'medical_certificate_issued_remarks' => 'required|string|max:255',
-            // 'date_issued'                        => 'required|date',
-            // 'illness_prior_commitment'           => 'required|string',
-            // 'medications_used'                   => 'required|string',
-            // 'jail_nurse'                         => 'required|string|max:255',
+        $this->inmate->personalInformation->update([
+            'firstname' => $this->data['firstname'],
+            'middlename' => $this->data['middlename'],
+            'lastname' => $this->data['lastname'],
+            'aliases' => $this->data['aliases'],
+            'sex' => $this->data['sex'],
+            'civil_status' => $this->data['civil_status'],
+            'birthdate' => $this->data['birthdate'],
+            'place_of_birth' => $this->data['place_of_birth'],
+            'street' => $this->data['street'],
+            'region' => $this->data['region'],
+            'province' => $this->data['province'],
+            'city' => $this->data['municipality'],
+            'barangay' => $this->data['barangay'],
         ]);
-
-        $inmate = Inmate::create([
-            'fullname' => $this->firstname . ' ' . $this->lastname,
-            'status' => 'pending',
-        ]);
-
-        InmateFingerprint::create([
-            'inmate_id' => $inmate->id,
-        ]);
-
-        PersonalInformation::create([
-            'inmate_id' => $inmate->id,
-            'firstname' => $this->firstname,
-            'middlename' => $this->middlename,
-            'lastname' => $this->lastname,
-            'aliases' => $this->aliases,
-            'sex' => $this->sex,
-            'civil_status' => $this->civil_status,
-            'birthdate' => Carbon::parse($this->birthdate),
-            'place_of_birth' => $this->place_of_birth,
-            'region' => $regionName,
-            'province' => $provinceName,
-            'city' => $municipalityName,
-            'barangay' => $barangayName,
-            'street' => $this->street,
-        ]);
-
-        OtherInformation::create([
-            'inmate_id' => $inmate->id,
-            'name_of_father' => $this->name_of_father,
-            'name_of_mother' => $this->name_of_mother,
-            'name_of_spouse' => $this->name_of_spouse,
-            'no_of_children' => $this->no_of_children,
-            'nearest_kin' => $this->nearest_kin,
-            'address_of_kin' => $this->address_of_kin,
-            'relationship' => $this->relationship,
-            'contact_number' => $this->contact_number,
-            'height' => $this->height,
-            'weight' => $this->weight,
-            'religion' => $this->religion,
-            'nationality' => $this->nationality,
-            'native_origin' => $this->native_origin,
-            'political_affilation' => $this->political_affilation,
-            'educational_attainment' => $this->educational_attainment,
-            'course' => $this->course,
-            'occupation' => $this->occupation,
-            'color_of_hair' => $this->color_of_hair,
-            'color_of_eyes' => $this->color_eyes,
-            'blood_type' => $this->blood_type,
-            'complexion' => $this->complexion,
-            'bertillon_marks' => $this->bertillion_marks,
-            'crime_commited' => Carbon::parse($this->crime_commited),
-            'date_time_arrested' => Carbon::parse($this->date_time_arrested),
-            'arresting_officer' => $this->arresting_officer,
-            'commited_in_jail' => Carbon::parse($this->commited_in_jail),
-            'station' => $this->station,
-            'inmate_search_by' => $this->inmate_search_by,
-            'inmate_property_held_by' => $this->inmate_property_held_by,
-            'property_receipt_no' => $this->property_receipt_no,
-            'kind' => $this->kind,
-            'medical_certificate_issued_remarks' => $this->medical_certificate_issued_remarks,
-            'date_issued' => Carbon::parse($this->medical_date_issued),
-            'illness_prior_commitment' => $this->illness_prior_commitment,
-            'medications_used' => $this->medications_used,
-            'jail_nurse' => $this->jail_nurse,
-        ]);
-
-        foreach ($this->cases as $key => $case) {
-            CaseDetail::create([
-                'inmate_id' => $inmate->id,
-                'criminal_case_no' => $case['criminal_case_no'] ?? null,
-                'offense_charge' => $case['offense_charge'] ?? null,
-                'judge' => $case['judge'] ?? null,
-                'court_branch' => $case['court_branch'] ?? null,
-                'date_filed' => Carbon::parse($case['date_filed'] ?? null),
-            ]);
-        }
-
-        foreach ($this->previous_cases as $key => $previous) {
-            PreviousCaseDetail::create([
-                'inmate_id' => $inmate->id,
-                'criminal_case_no' => $previous['criminal_case_no'] ?? null,
-                'offense_charge' => $previous['offense_charge'] ?? null,
-                'judge' => $previous['judge'] ?? null,
-                'court_branch' => $previous['court_branch'] ?? null,
-                'date_filed' => Carbon::parse($previous['date_filed'] ?? null),
-            ]);
-        }
-
-        if (auth()->user()->user_type == 'admin') {
-            return redirect()->route('admin.inmates');
-        } else {
-            return redirect()->route('staff.inmates');
-        }
     }
 
     public function render()
     {
-        return view('livewire.admin.create-inmate');
+        return view('livewire.staff.edit-inmate');
     }
 }

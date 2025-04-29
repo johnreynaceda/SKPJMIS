@@ -35,34 +35,34 @@ class UserList extends Component implements HasForms, HasTable
     {
         return $table
             ->query(User::query()->where('user_type', 'staff'))->headerActions([
-                Action::make('new')->label('New User')->color('main')->icon('heroicon-o-plus')->url(fn($record) => route('admin.create-user'))
-                // ->action(
-                //     function($data){
-                //         $user = User::create([
-                //             'name' => $data['name'],
-                //             'email' => $data['email'],
-                //             'username' => $data['username'],
-                //             'password' => bcrypt($data['password']),
-                //             'user_type' =>'staff',
-                //         ]);
+                    Action::make('new')->label('New Staff')->color('main')->icon('heroicon-o-plus')->url(fn($record) => route('admin.create-user'))
+                    // ->action(
+                    //     function($data){
+                    //         $user = User::create([
+                    //             'name' => $data['name'],
+                    //             'email' => $data['email'],
+                    //             'username' => $data['username'],
+                    //             'password' => bcrypt($data['password']),
+                    //             'user_type' =>'staff',
+                    //         ]);
 
-                //         Staff::create([
-                //             'fullname' => $data['name'],
-                //             'position' => $data['designation'],
-                //             'user_id' => $user->id
-                //         ]);
-                //     }
-                // )->form([
-                //     TextInput::make('name')->required(),
-                //     TextInput::make('email')->email()->required(),
-                //     TextInput::make('username')->required(),
-                //     TextInput::make('password')->password()->required(),
-                //     Select::make('designation')->options([
-                //         'Staff' => 'Penology Officer',
-                //         // 'Penology Officer' => 'Penology Officer',
-                //     ])
-                // ])->modalWidth('xl')
-            ])
+                    //         Staff::create([
+                    //             'fullname' => $data['name'],
+                    //             'position' => $data['designation'],
+                    //             'user_id' => $user->id
+                    //         ]);
+                    //     }
+                    // )->form([
+                    //     TextInput::make('name')->required(),
+                    //     TextInput::make('email')->email()->required(),
+                    //     TextInput::make('username')->required(),
+                    //     TextInput::make('password')->password()->required(),
+                    //     Select::make('designation')->options([
+                    //         'Staff' => 'Penology Officer',
+                    //         // 'Penology Officer' => 'Penology Officer',
+                    //     ])
+                    // ])->modalWidth('xl')
+                ])
             ->columns([
                 // TextColumn::make('name')->label('NAME')->searchable(),
                 // TextColumn::make('email')->label('EMAIL')->searchable(),
@@ -73,17 +73,17 @@ class UserList extends Component implements HasForms, HasTable
                     Stack::make([
                         ViewColumn::make('image')->view('filament.tables.profile'),
                         TextColumn::make('name'),
-                        
+
                     ]),
                     TextColumn::make('phone')
                         ->icon('heroicon-m-phone'),
                     TextColumn::make('email')
-                        , 
+                    ,
                 ])
             ])->contentGrid([
-                'md' => 3,
-                '2xl' => 5,
-            ])
+                    'md' => 3,
+                    '2xl' => 5,
+                ])
             ->filters([
                 // ...
             ])

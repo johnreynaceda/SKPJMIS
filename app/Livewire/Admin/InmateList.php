@@ -40,36 +40,36 @@ class InmateList extends Component implements HasForms, HasTable
             ->query(Inmate::query()->whereHas('descriptiveInformation', function ($query) {
                 $query->whereNotNull('front_path')->whereNotNull('back_path');
             })->whereHas(
-                'inmateFingerprint',
-                fn($query) => $query->whereNotNull('right_thumb')
-                    ->whereNotNull('right_index')
-                    ->whereNotNull('right_middle')
-                    ->whereNotNull('right_ring')
-                    ->whereNotNull('right_little')
-                    ->whereNotNull('left_thumb')
-                    ->whereNotNull('left_index')
-                    ->whereNotNull('left_middle')
-                    ->whereNotNull('left_ring')
-                    ->whereNotNull('left_little')
-            )->orderByDesc('created_at'))->headerActions([
-        ])
+                    'inmateFingerprint',
+                    fn($query) => $query->whereNotNull('right_thumb')
+                        ->whereNotNull('right_index')
+                        ->whereNotNull('right_middle')
+                        ->whereNotNull('right_ring')
+                        ->whereNotNull('right_little')
+                        ->whereNotNull('left_thumb')
+                        ->whereNotNull('left_index')
+                        ->whereNotNull('left_middle')
+                        ->whereNotNull('left_ring')
+                        ->whereNotNull('left_little')
+                )->orderByDesc('created_at'))->headerActions([
+                ])
             ->columns([
                 TextColumn::make('created_at')->date()->label('CREATED DATE')->searchable(),
                 TextColumn::make('fullname')->label('NAME')->searchable(),
                 TextColumn::make('status')->label('STATUS')->badge()->searchable()->formatStateUsing(
                     fn($record) => ucfirst($record->status)
                 )->color(fn(string $state): string => match ($state) {
-                    'pending'                          => 'warning',
-                    'approved'                         => 'success',
-                    'discharge'                        => 'danger',
-                }),
+                        'pending' => 'warning',
+                        'approved' => 'success',
+                        'discharge' => 'danger',
+                    }),
                 ViewColumn::make('print')->label('')->view('filament.tables.print'),
             ])
             ->filters([
                 SelectFilter::make('status')
                     ->options([
-                        'pending'   => 'Pending',
-                        'approved'  => 'Approved',
+                        'pending' => 'Pending',
+                        'approved' => 'Approved',
                         'discharge' => 'Dismissed',
                     ]),
             ])
@@ -102,14 +102,14 @@ class InmateList extends Component implements HasForms, HasTable
                                 ViewField::make('back')->view('filament.forms.back'),
                             ])->columns(2),
                     ])->modalWidth('6xl')->action(
-                        function ($record, $data) {
-                            DescriptiveInformation::create([
-                                'inmate_id'  => $record->id,
-                                'front_path' => $this->front->store('Front', 'public'),
-                                'back_path'  => $this->back->store('Back', 'public'),
-                            ]);
-                        }
-                    ),
+                            function ($record, $data) {
+                                DescriptiveInformation::create([
+                                    'inmate_id' => $record->id,
+                                    'front_path' => $this->front->store('Front', 'public'),
+                                    'back_path' => $this->back->store('Back', 'public'),
+                                ]);
+                            }
+                        ),
                     Action::make('discharge_inmate')->visible(fn($record) => $record->status != 'pending' && $record->status != 'discharge')->label('Discharge Inmate')->icon('heroicon-o-arrow-turn-down-right')->color('danger')->form([
                         Grid::make(2)->schema([
                             TextInput::make('criminal_case')->label('Criminal Case/s NO./s'),
@@ -126,30 +126,30 @@ class InmateList extends Component implements HasForms, HasTable
                         ]),
 
                     ])->modalWidth('2xl')->action(
-                        function ($record, $data) {
-                            DischargeInfo::create([
-                                'inmate_id'         => $record->id,
-                                'criminal_case'     => $data['criminal_case'],
-                                'class'             => $data['class'],
-                                'committed_on'      => $data['commited_on'],
-                                'by'                => $data['by'],
-                                'for'               => $data['for'],
-                                'release'           => $data['release'],
-                                'order_of'          => $data['order_of'],
-                                'date'              => $data['date'],
-                                'previous_term'     => $data['previous_term'],
-                                'remarks'           => $data['remarks'],
-                                'date_of_discharge' => $data['date_of_discharge'],
-                            ]);
+                            function ($record, $data) {
+                                DischargeInfo::create([
+                                    'inmate_id' => $record->id,
+                                    'criminal_case' => $data['criminal_case'],
+                                    'class' => $data['class'],
+                                    'committed_on' => $data['commited_on'],
+                                    'by' => $data['by'],
+                                    'for' => $data['for'],
+                                    'release' => $data['release'],
+                                    'order_of' => $data['order_of'],
+                                    'date' => $data['date'],
+                                    'previous_term' => $data['previous_term'],
+                                    'remarks' => $data['remarks'],
+                                    'date_of_discharge' => $data['date_of_discharge'],
+                                ]);
 
-                            // Ensure the record updates properly
-                            $record->update(['status' => 'discharge']);
+                                // Ensure the record updates properly
+                                $record->update(['status' => 'discharge']);
 
-                            // CellInmate::where('inmate_id', $record->id)->delete();
-                        }
-                    ),
+                                // CellInmate::where('inmate_id', $record->id)->delete();
+                            }
+                        ),
 
-                    // Action::make('edit')->color('success')->icon('heroicon-o-pencil'),
+                    Action::make('recommit')->color('Recommit')->icon('heroicon-o-adjustments-vertical'),
                     // DeleteAction::make('delete'),
                 ]),
             ])
@@ -162,25 +162,25 @@ class InmateList extends Component implements HasForms, HasTable
     {
         sleep(1);
 
-        $ch         = curl_init();
+        $ch = curl_init();
         $parameters = [
-            'apikey'     => '1aaad08e0678a1c60ce55ad2000be5bd', //Your API KEY
-            'number'     => '09489203090',
-            'message'    => 'I just sent my first message with Semaphore',
+            'apikey' => '1aaad08e0678a1c60ce55ad2000be5bd', //Your API KEY
+            'number' => '09489203090',
+            'message' => 'I just sent my first message with Semaphore',
             'sendername' => 'ELOIS',
         ];
         curl_setopt($ch, CURLOPT_URL, 'https://semaphore.co/api/v4/messages');
         curl_setopt($ch, CURLOPT_POST, 1);
 
-//Send the parameters set above with the request
+        //Send the parameters set above with the request
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
 
-// Receive response from server
+        // Receive response from server
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $output = curl_exec($ch);
         curl_close($ch);
 
-//Show the server response
+        //Show the server response
         echo $output;
 
     }

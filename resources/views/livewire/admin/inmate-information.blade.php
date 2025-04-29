@@ -1,14 +1,20 @@
 <div x-data>
-    <a href="" @click="printOut($refs.printContainer.outerHTML);"
-        class="fixed h-20 w-20 rounded-full right-20 bg-gray-600 hover:bg-gray-500 text-white bottom-20 grid place-content-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-printer">
-            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-            <path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6" />
-            <rect x="6" y="14" width="12" height="8" rx="1" />
-        </svg>
-    </a>
+    <div class="fixed right-10 bottom-20">
+        <div class="flex flex-col items-center space-y-5">
+            <x-button label="Edit Information" href="{{ route('staff.edit-information', $inmate->id) }}" sm positive
+                class="font-semibold" />
+            <a href="" @click="printOut($refs.printContainer.outerHTML);"
+                class=" h-20 w-20 rounded-full right-20 bg-gray-600 hover:bg-gray-500 text-white  grid place-content-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-printer">
+                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                    <path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6" />
+                    <rect x="6" y="14" width="12" height="8" rx="1" />
+                </svg>
+            </a>
+        </div>
+    </div>
     <div class="border">
         <div class=" p-5" x-ref="printContainer">
             <div class="flex justify-center space-x-10 items-center">

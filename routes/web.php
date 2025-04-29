@@ -118,6 +118,9 @@ Route::prefix('staff')->middleware(['auth', 'verified', Staff::class])->group(fu
     Route::get('inmates/{id}', function () {
         return view('staff.inmates-information');
     })->name('staff.inmates-information');
+    Route::get('inmates/edit/{id}', function () {
+        return view('staff.edit-information');
+    })->name('staff.edit-information');
 });
 
 //staff routes
